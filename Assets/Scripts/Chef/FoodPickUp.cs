@@ -6,13 +6,19 @@ using UnityEngine.EventSystems;
 public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	public static GameObject itemBeingDragged;
 	public GameObject[] dragDestinations;
+	public ChefCoolDown chef;
+	private bool isDragging = false;
 	Vector3 startPosition;
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
 	{
-		itemBeingDragged = gameObject;
-		startPosition = transform.position;
+		FoodCoolDown foodManager = GetComponent<FoodCoolDown> ();
+		if (!foodManager.isInCoolDown) {
+			itemBeingDragged = gameObject;
+			startPosition = transform.position;
+			isDragging = true;
+		}
 	}
 	#endregion
 
@@ -20,7 +26,9 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		transform.position = Input.mousePosition;
+		if (isDragging) {
+			transform.position = Input.mousePosition;
+		}
 	}
 
 	#endregion
@@ -29,10 +37,12 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		ActivateDrag ();
-
-		itemBeingDragged = null;
-		transform.position = startPosition;
+		if (isDragging) {
+			ActivateDrag ();
+			itemBeingDragged = null;
+			transform.position = startPosition;
+			isDragging = false;
+		}
 	}
 
 	#endregion
@@ -43,7 +53,24 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 		while (i < dragDestinations.Length && !found) {
 			if (WithinRange (dragDestinations [i])) {
 				found = true;
-				Debug.Log (dragDestinations[i].name.Substring(0,1));
+				FoodCoolDown coolDown = GetComponent<FoodCoolDown> ();
+				switch (dragDestinations [i].name.Substring (0, 3)) {
+				case "Win":
+					//////FOOD DELIVERY HERE//////
+					coolDown.emptyFood ();
+					break;
+				case "Tra":
+					//////THROW FOOD AWAY HERE//////
+					coolDown.binFood();
+					break;
+				case "Che":
+					//////COOK FOOD HERE//////
+					if (!chef.isInUse) {
+						coolDown.cookFood();
+						chef.CookThis (gameObject);
+					}
+					break;
+				}
 			}
 			i++;
 		}
