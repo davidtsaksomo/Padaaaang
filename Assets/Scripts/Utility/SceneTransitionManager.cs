@@ -17,8 +17,18 @@ public class SceneTransitionManager : MonoBehaviour {
 	}
 	public void LoadGame(){
 		Application.LoadLevelAsync ("Game");
+
+	}
+	public void LoadGameOver(){
+		Application.LoadLevelAsync ("GameOver");
+
+	}
+	public void RestartGame(){
+		(new RoomJoin ()).JoinRoom ();
+
 	}
 	public void Quit(){
 		Application.Quit ();
+
 	}
 }
