@@ -9,10 +9,6 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	Vector3 startPosition;
 
-	void Start() {
-		
-	}
-
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
 	{
@@ -34,51 +30,49 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		bool found = false;
-		int i = 0;
-		/*
-		while (i < arrayOrder.Length && !found) {
-			GameObject destination = GameObject.Find(arrayOrder[i].gameObject.name);
-			if (WithinRange (destination)) {
-				found = true;
-				if (destination.tag == gameObject.tag) {
-					Destroy (gameObject);
-					Destroy (destination);
-				} else if (destination.tag == "trash") {
-					Destroy (gameObject);
-				} else {
-					Debug.Log ("Something wrong");
-				}
-			}
-			i++;
-		}*/
+		GameObject order;
 
-
-		GameObject destination = arrayOrder [GenerateOrder.orderPos [i]].gameObject;
 		if (WithinRange () > 0) {
 			if (WithinRange () == 1) { // left
-				Destroy (GameObject.Find(arrayOrder [GenerateOrder.orderPos [0]].gameObject.name));
-				Debug.Log (GameObject.Find(arrayOrder [GenerateOrder.orderPos [0]].gameObject.name));
-				GenerateOrder.orderPos [0] = 999;
+				order = GetOrder(0);
+				if (MatchOrder(gameObject, order)) {
+					Destroy (order);
+					Destroy (gameObject);
+					GenerateOrder.orderPos [0] = 999;
+					Debug.Log ("count before remove "+GenerateOrder.foodActive.Count);
+					GenerateOrder.foodActive.Remove (gameObject);
+					Debug.Log ("count after remove "+GenerateOrder.foodActive.Count);
+				}
 			} else if (WithinRange () == 2) { //middle
-				Destroy (GameObject.Find(arrayOrder [GenerateOrder.orderPos [1]].gameObject.name));
-				GenerateOrder.orderPos [1] = 999;
-			} else if (WithinRange () == 3) {
-				Destroy (GameObject.Find(arrayOrder [GenerateOrder.orderPos [2]].gameObject.name));
-				GenerateOrder.orderPos [2] = 999;
+				order = GetOrder(1);
+				if (MatchOrder (gameObject, order)) {
+					Destroy (order);
+					Destroy (gameObject);
+					GenerateOrder.orderPos [1] = 999;
+					Debug.Log ("count before remove "+GenerateOrder.foodActive.Count);
+					GenerateOrder.foodActive.Remove (gameObject);
+					Debug.Log ("count after remove "+GenerateOrder.foodActive.Count);
+				}
+			} else if (WithinRange () == 3) { //right
+				order = GetOrder(2);
+				if (MatchOrder (gameObject, order)) {
+					Destroy (order);
+					Destroy (gameObject);
+					GenerateOrder.orderPos [2] = 999;
+					Debug.Log ("count before remove "+GenerateOrder.foodActive.Count);
+					GenerateOrder.foodActive.Remove (gameObject);
+					Debug.Log ("count after remove "+GenerateOrder.foodActive.Count);
+				}
 			} 
-			Destroy (this.gameObject);
-		} else {
-			itemBeingDragged = null;
-			transform.position = startPosition;
-		}
-
+		} 
+		itemBeingDragged = null;
+		transform.position = startPosition;
 	}
 
 	#endregion
 
 	int WithinRange(){
-		RectTransform rectTransform = this.gameObject.GetComponent<RectTransform> ();
+		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
 		if (rectTransform.localPosition.y >= -107 && rectTransform.localPosition.y <= 1000) {
 			if (rectTransform.localPosition.x >= -800 && rectTransform.localPosition.x <= -450) {
 				return 1; //left
@@ -94,11 +88,18 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 			return 0;
 		}
 	}
-		
 
-
-	void Update() {
-
+	GameObject GetOrder(int i) {
+		string orderName = arrayOrder [GenerateOrder.orderPos [i]].gameObject.name + "(Clone)";
+		GameObject order = GameObject.Find (orderName);
+		return order;
 	}
 		
+	bool MatchOrder(GameObject food, GameObject order) {
+		if (food.tag == order.tag) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

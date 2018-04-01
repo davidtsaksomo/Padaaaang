@@ -14,9 +14,12 @@ public class GenerateOrder : MonoBehaviour {
 	float bottom = 285.5f;
 
 	float nextCustTime;
+	public static List<GameObject> foodActive = new List<GameObject> ();
 	public static int[] orderPos = new int[3]; // 0-2
+	public static int[] foodPos = new int[3]; // 0-2
 
 	public GameObject[] Orders;
+	public GameObject[] Foods;
 	public Transform canvas;
 
 	// Use this for initialization
@@ -25,52 +28,22 @@ public class GenerateOrder : MonoBehaviour {
 		//inisialisasi posisi order
 		for(int i=0; i<=2; i++) {
 			orderPos[i] = 999;
+			foodPos [i] = 999;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		GameObject order, newOrder;
-		Debug.Log ("order[0] : "+ orderPos [0]);
-		Debug.Log ("order[1] : "+ orderPos [1]);
-		Debug.Log ("order[2] : "+ orderPos [2]);
-		//update order position
-		if (orderPos [0] == 999 && orderPos[1] != 999) { //kiri kosong & tengah isi
-			order = GameObject.Find(Orders[orderPos[1]].gameObject.name);
-			Debug.Log ("name: "+GameObject.Find(Orders[orderPos[1]].gameObject.name).gameObject.name);
-			SetOrderLeft (order);
-			orderPos [0] = orderPos [1];
-			orderPos [1] = 999;
-		}
+		GameObject newOrder;
+		UpdateOrderPosition ();
+		UpdateFoodPosition ();
+		//InstantiateFood (get object tag from chef); 
 
-		if (orderPos[1] == 999 && orderPos[2] != 999) { //tengah kosong & kanan isi
-			order = GameObject.Find(Orders[orderPos[2]].gameObject.name);
-			SetOrderMiddle (order);
-			orderPos [1] = orderPos [2];
-			orderPos [2] = 999;
-		}
-
-		//instantiate order
 		if(Time.time > nextCustTime)
 		{
-			int orderNum = Random.Range(0,5);
-			Debug.Log (orderNum);
+			InstantiateOrder ();
+			InstantiateFood (); //TODO: get object tag from chef
 
-			if (orderPos [0] == 999) { //kiri kosong
-				newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-				SetOrderLeft (newOrder);
-				orderPos [0] = orderNum;
-			} else if (orderPos [1] == 999) { //kiri isi, tengah kosong
-				newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-				SetOrderMiddle (newOrder);
-				orderPos [1] = orderNum;
-			} else if (orderPos [2] == 999) { //kiri isi, tengah isi, kanan kosong
-				newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-				SetOrderRight (newOrder);
-				orderPos [2] = orderNum;
-			}
-
-			//increment next_spawn_time
 			nextCustTime += 5.0f;
 		}
 	}
@@ -90,7 +63,85 @@ public class GenerateOrder : MonoBehaviour {
 		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right3, -top);
 	}
 
-	public GameObject[] GetOrders() {
-		return Orders;
+	GameObject GetOrder(int i) {
+		string orderName = Orders [GenerateOrder.orderPos [i]].gameObject.name + "(Clone)";
+		GameObject order = GameObject.Find (orderName);
+		return order;
+	}
+
+	void UpdateOrderPosition() {
+		GameObject order;
+		if (orderPos [0] == 999 && orderPos[1] != 999) { //kiri kosong & tengah isi
+			order = GetOrder(1);
+			SetOrderLeft (order);
+			orderPos [0] = orderPos [1];
+			orderPos [1] = 999;
+		}
+
+		if (orderPos[1] == 999 && orderPos[2] != 999) { //tengah kosong & kanan isi
+			order = GetOrder(2);
+			SetOrderMiddle (order);
+			orderPos [1] = orderPos [2];
+			orderPos [2] = 999;
+		}
+	}
+
+	void UpdateFoodPosition() {
+		GameObject order;
+		if (foodActive.Count == 1) { 
+			//foodActive [0].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (12f, -1445f);
+			//Debug.Log (foodActive [0].gameObject.name);
+		} else if (foodActive.Count == 2) { 
+			//foodActive [0].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (-418f, -1445f);
+			//Debug.Log (foodActive [0].gameObject.name);
+			//foodActive [1].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (403f, -1445f);
+			//Debug.Log (foodActive [1].gameObject.name);
+		} else if (foodActive.Count == 3) { 
+			//foodActive[0].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(-627f, -1445f);
+			//foodActive[1].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(12f, -1445f);
+			//foodActive[2].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2(635f, -1445f);
+		}
+	}
+
+	void InstantiateOrder() {
+		GameObject newOrder;
+		int orderNum = Random.Range(0,5);
+
+		if (orderPos [0] == 999) { //kiri kosong
+			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
+			Debug.Log (orderNum);
+			orderPos [0] = orderNum;
+			Debug.Log (orderPos[0]);
+		} else if (orderPos [1] == 999) { //kiri isi, tengah kosong
+			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
+			SetOrderMiddle (newOrder);
+			orderPos [1] = orderNum;
+		} else if (orderPos [2] == 999) { //kiri isi, tengah isi, kanan kosong
+			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
+			SetOrderRight (newOrder);
+			orderPos [2] = orderNum;
+		}
+	}
+
+	void InstantiateFood() {
+		GameObject newFood;
+		int foodNum = Random.Range(0,5);
+
+		if (foodActive.Count == 0) { //no food, set position center
+			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
+			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(12f, -1445f);
+			foodActive.Add (newFood);
+		} else if (foodActive.Count == 1) {
+			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
+			foodActive[0].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(-418f, -1445f);
+			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(403f, -1445f);
+			foodActive.Add (newFood);
+		} else if (foodActive.Count == 2) {
+			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
+			foodActive[0].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(-627f, -1445f);
+			foodActive[1].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(12f, -1445f);
+			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(635f, -1445f);
+			foodActive.Add (newFood);
+		}
 	}
 }
