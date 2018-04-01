@@ -19,6 +19,14 @@ public class RoomJoin : MonoBehaviour {
 	bool inLobby = false;
 	// Use this for initialization
 	void Start () {
+		if (PlayerPrefs.GetString ("roomname").Equals ("")) {
+			JoinRoom ();
+		} else {
+			InitGame ();
+		}
+	}
+
+	void InitGame() {
 		inLobby = PhotonNetwork.insideLobby;
 		PhotonNetwork.offlineMode = false;
 		//Automatically sinc scene with master
@@ -74,13 +82,18 @@ public class RoomJoin : MonoBehaviour {
 		} 
 		else  {
 			// Create Room
-			if (input_roomname.text == "") {
+			if (PlayerPrefs.GetString ("roomname").Equals("") && input_roomname.text == "") {
 				infoText.color = Color.red;
 				infoText.text = "Name Invalid";
 			} 
 			else {
 
-				roomName = input_roomname.text;
+				if (PlayerPrefs.GetString ("roomname").Equals ("")) {
+					roomName = input_roomname.text;
+					PlayerPrefs.SetString ("roomname", roomName);
+				} else {
+					roomName = PlayerPrefs.GetString ("roomname");
+				}
 				PhotonNetwork.JoinOrCreateRoom (roomName, roomopt, TypedLobby.Default);
 				infoText.color = Color.green;
 				infoText.text = "Joining room...";

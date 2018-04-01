@@ -37,4 +37,8 @@ public class GameController : MonoBehaviour {
 			menus.text += "\n"+name;
 		}
 	}
+
+	public void GameOver() {
+		Application.LoadLevel ("GameOver");
+	}
 }

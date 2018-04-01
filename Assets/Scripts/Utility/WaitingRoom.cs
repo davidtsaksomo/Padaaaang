@@ -7,6 +7,7 @@ public class WaitingRoom : MonoBehaviour {
 	[SerializeField] Text text_info;
 	[SerializeField] Text playerInfo;
 	[SerializeField] Button startButton;
+	[SerializeField] Button backButton;
 	// Use this for initialization
 	void Start () {
 		//Set Role
@@ -18,6 +19,10 @@ public class WaitingRoom : MonoBehaviour {
 		}
 		StartCoroutine ("regularupdate");
 		StartButtonActivation ();
+	}
+
+	public void BackButton(){
+		Application.LoadLevel("Title");
 	}
 	
 	public void StartRoombutton(){
