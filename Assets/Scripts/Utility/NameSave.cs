@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class NameSave : MonoBehaviour {
 	[SerializeField] InputField input_name;
 	void Start () {
+		PlayerPrefs.DeleteKey ("roomname");
 		input_name.GetComponent<InputField>().text = PlayerPrefs.GetString ("playerName", "Player");
 	}
 	
