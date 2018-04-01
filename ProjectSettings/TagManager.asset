@@ -6,6 +6,15 @@ TagManager:
   tags:
   - Waiter
   - Chef
+  - ayam
+  - ikan
+  - rendang
+  - sayur
+  - tahu
+  - telur
+  - terong
+  - perkedel
+  - Undefined
   layers:
   - Default
   - TransparentFX
