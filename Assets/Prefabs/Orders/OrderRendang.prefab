@@ -56,8 +56,8 @@ GameObject:
   - component: {fileID: 222170569830646516}
   - component: {fileID: 114912282086427138}
   m_Layer: 5
-  m_Name: OrderRendang 1
-  m_TagString: Untagged
+  m_Name: OrderRendang
+  m_TagString: rendang
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -15,6 +15,7 @@ TagManager:
   - terong
   - perkedel
   - Undefined
+  - trash
   layers:
   - Default
   - TransparentFX

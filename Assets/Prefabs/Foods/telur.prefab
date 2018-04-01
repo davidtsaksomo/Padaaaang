@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224394152128936614}
   - component: {fileID: 222673274406540118}
   - component: {fileID: 114960470406238648}
+  - component: {fileID: 114545959817259226}
   m_Layer: 5
   m_Name: telur
   m_TagString: telur
@@ -28,6 +29,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114545959817259226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798693171206002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68759da1a58d52f45b7e52065883528d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrayOrder:
+  - {fileID: 1228810773670520, guid: 8a152617f95032742af6ef38af9e465a, type: 2}
+  - {fileID: 1991183812607058, guid: a80facbd00bccc24f895e601ad772dcf, type: 2}
+  - {fileID: 1211231691237112, guid: fcce469787299e649863fb0b5552e668, type: 2}
+  - {fileID: 1851879736682794, guid: 451a0d3ce0e76d2499c7bad500c2e83d, type: 2}
+  - {fileID: 1116920203889872, guid: d13df371ca90eb946b0ae9f9db98727a, type: 2}
+  - {fileID: 1787808615477838, guid: c1870f21f21bec24899004aa5f936e36, type: 2}
+  - {fileID: 1279070946156250, guid: 2a5e1964105074a41823b57598627d68, type: 2}
+  - {fileID: 1902876556560932, guid: 09521d69246995e48b6dda59a7d79036, type: 2}
+  - {fileID: 1923426676861708, guid: 30bdd073007a95949b70ebd79ecbed8b, type: 2}
 --- !u!114 &114960470406238648
 MonoBehaviour:
   m_ObjectHideFlags: 1

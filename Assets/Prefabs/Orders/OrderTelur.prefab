@@ -39,8 +39,8 @@ GameObject:
   - component: {fileID: 222565038060076934}
   - component: {fileID: 114206577799019862}
   m_Layer: 5
-  m_Name: OrderTelur 1
-  m_TagString: Untagged
+  m_Name: OrderTelur
+  m_TagString: telur
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
