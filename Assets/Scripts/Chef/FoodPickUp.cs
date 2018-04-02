@@ -14,11 +14,9 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 	public void OnBeginDrag (PointerEventData eventData)
 	{
 		FoodCoolDown foodManager = GetComponent<FoodCoolDown> ();
-		if (!foodManager.isInCoolDown) {
-			itemBeingDragged = gameObject;
-			startPosition = transform.position;
-			isDragging = true;
-		}
+		itemBeingDragged = gameObject;
+		startPosition = transform.position;
+		isDragging = true;
 	}
 	#endregion
 
@@ -58,18 +56,29 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 				switch (dragDestinations [i].name.Substring (0, 3)) {
 				case "Win":
 					//////FOOD DELIVERY HERE//////
-					coolDown.emptyFood ();
-					Debug.Log ("Put On Window");
+					if (coolDown.isInCoolDown) {
+						Debug.Log ("Gabisa ngirim makanan kosong");
+
+					} else {
+						coolDown.emptyFood ();
+						Debug.Log ("Put On Window");
+					}
+
 					break;
 				case "Tra":
 					//////THROW FOOD AWAY HERE//////
-					coolDown.binFood();
-					Debug.Log ("Put On Trash");
+					if (coolDown.isInCoolDown) {
+						Debug.Log ("Gabisa buang makanan kosong");
+					} else {
+						coolDown.binFood();
+						Debug.Log ("Put On Trash");
+
+					}
 
 					break;
 				case "Isi":
 					//////COOK FOOD HERE//////
-					if (!chef.isInUse) {
+					if (!chef.isInUse && coolDown.isInCoolDown) {
 						coolDown.cookFood();
 						Debug.Log ("Put On IsiUlang");
 						chef.CookThis (gameObject);
