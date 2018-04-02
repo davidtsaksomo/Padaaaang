@@ -13,76 +13,59 @@ public class GenerateOrder : MonoBehaviour {
 	float top = -884.5f;
 	float bottom = 285.5f;
 
-	float nextCustTime;
+	int pendingorders = 0;
+	public static GenerateOrder instance;
 	public static List<GameObject> foodActive = new List<GameObject> ();
-	public static int[] orderPos = new int[3]; // 0-2
-	public static int[] foodPos = new int[3]; // 0-2
-
-	public GameObject[] Orders;
-	public GameObject[] Foods;
+	public static GameObject[] orders = new GameObject[3]; // 0-2
+	public static GameObject[] foods = new GameObject[3]; // 0-2
+	public GameObject orderPrefab;
+	public GameObject foodPrefab;
 	public Transform canvas;
+	public Text queueCount;
+	public float startTime = 1f;
+	public float orderTime = 3f;
 
+
+	//Network
+	PhotonView photonView;
+
+	//Singleton Principle
+	void Awake(){
+		if (instance == null) {
+			instance = this;
+		} else {
+			Destroy (this);
+		}
+	}
 	// Use this for initialization
 	void Start () {
-		nextCustTime = Time.time + 1.0f;	
+		//Photon inizialitation
+		photonView = GetComponent<PhotonView> ();
+
+		InvokeRepeating ("InstantiateOrder", startTime, orderTime);	
 		//inisialisasi posisi order
 		for(int i=0; i<=2; i++) {
-			orderPos[i] = 999;
-			foodPos [i] = 999;
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		GameObject newOrder;
-		UpdateOrderPosition ();
-		UpdateFoodPosition ();
-		//InstantiateFood (get object tag from chef); 
-
-		if(Time.time > nextCustTime)
-		{
-			InstantiateOrder ();
-			InstantiateFood (); //TODO: get object tag from chef
-
-			nextCustTime += 5.0f;
+			orders[i] = null;
+			foods [i] = null;
 		}
 	}
 
-	void SetOrderLeft(GameObject order) {
-		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left1, bottom);
-		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right1, -top);
-	}
-
-	void SetOrderMiddle(GameObject order) {
-		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left2, bottom);
-		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right2, -top);
-	}
-
-	void SetOrderRight(GameObject order) {
-		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left3, bottom);
-		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right3, -top);
-	}
-
-	GameObject GetOrder(int i) {
-		string orderName = Orders [GenerateOrder.orderPos [i]].gameObject.name + "(Clone)";
-		GameObject order = GameObject.Find (orderName);
-		return order;
-	}
-
-	void UpdateOrderPosition() {
+	public void UpdateOrderPosition() {
 		GameObject order;
-		if (orderPos [0] == 999 && orderPos[1] != 999) { //kiri kosong & tengah isi
-			order = GetOrder(1);
-			SetOrderLeft (order);
-			orderPos [0] = orderPos [1];
-			orderPos [1] = 999;
+		if (orders [0] == null && orders[1] != null) { //kiri kosong & tengah isi
+			SetOrderLeft (orders[1]);
+			orders [0] = orders [1];
+			orders [1] = null;
 		}
 
-		if (orderPos[1] == 999 && orderPos[2] != 999) { //tengah kosong & kanan isi
-			order = GetOrder(2);
-			SetOrderMiddle (order);
-			orderPos [1] = orderPos [2];
-			orderPos [2] = 999;
+		if (orders[1] == null && orders[2] != null) { //tengah kosong & kanan isi
+			SetOrderMiddle (orders[2]);
+			orders [1] = orders [2];
+			orders [2] = null;
+		}
+		if(pendingorders > 0){
+			pendingorders--;
+			InstantiateOrder ();
 		}
 	}
 
@@ -102,46 +85,97 @@ public class GenerateOrder : MonoBehaviour {
 			//foodActive[2].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2(635f, -1445f);
 		}
 	}
+	void SetOrderLeft(GameObject order) {
+		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left1, bottom);
+		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right1, -top);
+	}
+
+	void SetOrderMiddle(GameObject order) {
+		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left2, bottom);
+		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right2, -top);
+	}
+
+	void SetOrderRight(GameObject order) {
+		order.GetComponent<RectTransform> ().offsetMin = new Vector2 (left3, bottom);
+		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right3, -top);
+	}
+
+
+
+
 
 	void InstantiateOrder() {
-		GameObject newOrder;
-		int orderNum = Random.Range(0,5);
+		//order penuh
+		if (orders [0] != null && orders [1] != null && orders [2] != null) {
+			pendingorders++;
+			if (pendingorders > 10) {
+				photonView.RPC ("GameOver", PhotonTargets.All);
+			}
+		} else {
+			GameObject newOrder = (GameObject)Instantiate (orderPrefab, canvas);
+			int customerID = Random.Range(0, CustomerDatabase.count);
+			int foodID = Random.Range(0, FoodDatabase.count);
+			OrderPrefab newOrderRef = newOrder.GetComponent<OrderPrefab> ();
+			newOrderRef.customer.GetComponent<Image> ().sprite = CustomerDatabase.instance.customerDatabase [customerID].image;
+			newOrderRef.foodOrder.GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
+			newOrderRef.foodOrder.GetComponent<FoodID> ().id = foodID;
 
-		if (orderPos [0] == 999) { //kiri kosong
-			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-			Debug.Log (orderNum);
-			orderPos [0] = orderNum;
-			Debug.Log (orderPos[0]);
-		} else if (orderPos [1] == 999) { //kiri isi, tengah kosong
-			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-			SetOrderMiddle (newOrder);
-			orderPos [1] = orderNum;
-		} else if (orderPos [2] == 999) { //kiri isi, tengah isi, kanan kosong
-			newOrder = (GameObject)Instantiate (Orders [orderNum], canvas);
-			SetOrderRight (newOrder);
-			orderPos [2] = orderNum;
+			if (orders [0] == null) { //kiri kosong
+				SetOrderLeft (newOrder);
+				orders [0] = newOrder;
+			} else if (orders [1] == null) { //kiri isi, tengah kosong
+				SetOrderMiddle (newOrder);
+				orders [1] = newOrder;
+			} else if (orders [2] == null) { //kiri isi, tengah isi, kanan kosong
+				SetOrderRight (newOrder);
+				orders [2] = newOrder;
+			}
+		}
+		UpdateQueueText ();
+
+	}
+
+	[PunRPC]
+	void InstantiateFood(int foodID, int waiterID) {
+		if (PhotonNetwork.player.ID == waiterID) {
+			Debug.Log (foodActive.Count);
+			if (foodActive.Count < 3) {
+				GameObject newFood = (GameObject)Instantiate (foodPrefab, canvas);
+				newFood.GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
+				newFood.GetComponent<FoodID> ().id = foodID;
+
+				if (foodActive.Count == 0) { //no food, set position center
+					newFood.GetComponent<RectTransform> ().localPosition = new Vector2 (12f, -1445f);
+					foodActive.Add (newFood);
+				} else if (foodActive.Count == 1) {
+					foodActive [0].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (-418f, -1445f);
+					newFood.GetComponent<RectTransform> ().localPosition = new Vector2 (403f, -1445f);
+					foodActive.Add (newFood);
+				} else if (foodActive.Count == 2) {
+					foodActive [0].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (-627f, -1445f);
+					foodActive [1].gameObject.GetComponent<RectTransform> ().localPosition = new Vector2 (12f, -1445f);
+					newFood.GetComponent<RectTransform> ().localPosition = new Vector2 (635f, -1445f);
+					foodActive.Add (newFood);
+				}
+			} else {
+				Instantiate (Resources.Load("KebuangText"), canvas);
+			}
+
 		}
 	}
 
-	void InstantiateFood() {
-		GameObject newFood;
-		int foodNum = Random.Range(0,5);
 
-		if (foodActive.Count == 0) { //no food, set position center
-			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
-			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(12f, -1445f);
-			foodActive.Add (newFood);
-		} else if (foodActive.Count == 1) {
-			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
-			foodActive[0].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(-418f, -1445f);
-			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(403f, -1445f);
-			foodActive.Add (newFood);
-		} else if (foodActive.Count == 2) {
-			newFood = (GameObject)Instantiate (Foods[foodNum], canvas);
-			foodActive[0].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(-627f, -1445f);
-			foodActive[1].gameObject.GetComponent<RectTransform>().localPosition = new Vector2(12f, -1445f);
-			newFood.GetComponent<RectTransform> ().localPosition = new Vector2(635f, -1445f);
-			foodActive.Add (newFood);
+	void UpdateQueueText(){
+		if (pendingorders == 0) {
+			queueCount.text = "";
+		} else {
+			queueCount.text = "+" + pendingorders;
 		}
+	}
+
+
+	[PunRPC]
+	void GameOver(){
+		PhotonNetwork.LoadLevel ("GameOver");
 	}
 }

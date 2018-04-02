@@ -30,7 +30,7 @@ public class RoomJoin : MonoBehaviour {
 		PhotonNetwork.automaticallySyncScene = false;
 
 		//Set the room options
-		roomopt = new RoomOptions(){IsVisible = true, MaxPlayers = 4};
+		roomopt = new RoomOptions(){IsVisible = true, MaxPlayers = 5};
 		roomopt.PublishUserId = true;
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString ("playerName", "Player");
 

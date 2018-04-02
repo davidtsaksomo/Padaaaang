@@ -5,11 +5,17 @@ using UnityEngine.EventSystems;
 
 public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	public static GameObject itemBeingDragged;
-	public GameObject[] dragDestinations;
+	ChefNetworkManager networkManager;
+	GameObject[] dragDestinations;
 	public ChefCoolDown chef;
 	private bool isDragging = false;
 	Vector3 startPosition;
 
+	void Start(){
+		dragDestinations = GameObject.FindGameObjectsWithTag ("DragDestination");
+		chef = GameObject.Find ("IsiUlang").GetComponent<ChefCoolDown>();
+		networkManager = GameObject.FindGameObjectWithTag ("ChefNetworkManager").GetComponent<ChefNetworkManager>();
+	}
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
 	{
@@ -62,6 +68,9 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 					} else {
 						coolDown.emptyFood ();
 						Debug.Log ("Put On Window");
+						int foodID = GetComponent<FoodID> ().id;
+						int playerID = dragDestinations [i].GetComponent<Window> ().id;
+						networkManager.SendFood (foodID, playerID);
 					}
 
 					break;

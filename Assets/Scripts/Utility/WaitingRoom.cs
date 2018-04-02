@@ -13,7 +13,7 @@ public class WaitingRoom : MonoBehaviour {
 	void Start () {
 		photonView = GetComponent<PhotonView> ();
 		//Set Role
-		if (CountBlue () > CountRed ()) {
+		if (CountWaiter () > CountChef ()) {
 			PhotonNetwork.player.SetTeam (PunTeams.Team.red);
 		} else {
 			PhotonNetwork.player.SetTeam (PunTeams.Team.blue);
@@ -53,7 +53,7 @@ public class WaitingRoom : MonoBehaviour {
 		yield return new WaitForSeconds(5f);
 		StartCoroutine ("regularupdate");
 	}
-	int CountRed(){
+	int CountChef(){
 		int red = 0;
 		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
 			if (player.GetTeam () == PunTeams.Team.red) {
@@ -63,7 +63,7 @@ public class WaitingRoom : MonoBehaviour {
 		return red;
 	}
 
-	int CountBlue(){
+	int CountWaiter(){
 		int blue = 0;
 		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
 			if (player.GetTeam () == PunTeams.Team.blue) {

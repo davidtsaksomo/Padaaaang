@@ -44,4 +44,6 @@ MonoBehaviour:
   - TaggedPlayer
   - GetMenu
   - GoToGame
+  - InstantiateFood
+  - GameOver
   DisableAutoOpenWizard: 1

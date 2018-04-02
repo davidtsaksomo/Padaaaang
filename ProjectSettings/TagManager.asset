@@ -7,15 +7,11 @@ TagManager:
   - Waiter
   - Chef
   - ayam
-  - ikan
-  - rendang
-  - sayur
-  - tahu
-  - telur
-  - terong
-  - perkedel
-  - Undefined
   - trash
+  - rendang
+  - DragDestination
+  - FoodHolder
+  - ChefNetworkManager
   layers:
   - Default
   - TransparentFX
