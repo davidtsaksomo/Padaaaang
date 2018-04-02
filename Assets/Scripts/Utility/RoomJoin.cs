@@ -19,18 +19,15 @@ public class RoomJoin : MonoBehaviour {
 	bool inLobby = false;
 	// Use this for initialization
 	void Start () {
-		if (PlayerPrefs.GetString ("roomname").Equals ("")) {
-			JoinRoom ();
-		} else {
-			InitGame ();
-		}
+		InitGame ();
 	}
 
 	void InitGame() {
 		inLobby = PhotonNetwork.insideLobby;
+
 		PhotonNetwork.offlineMode = false;
 		//Automatically sinc scene with master
-		PhotonNetwork.automaticallySyncScene = true;
+		PhotonNetwork.automaticallySyncScene = false;
 
 		//Set the room options
 		roomopt = new RoomOptions(){IsVisible = true, MaxPlayers = 4};
@@ -41,10 +38,11 @@ public class RoomJoin : MonoBehaviour {
 		statusText.color = Color.yellow;
 		statusText.text = "Connecting...";
 		//Connect to the server
-		if (!PhotonNetwork.connected|| !inLobby) {
+		if(!PhotonNetwork.connected){
 			PhotonNetwork.ConnectUsingSettings ("v4.2");
-			statusText.color = Color.yellow;
-			statusText.text = "Connecting...";
+		} else if (!inLobby) {
+			PhotonNetwork.JoinLobby ();
+			Debug.Log ("Joining Lobby");
 		} else {
 			statusText.color = Color.green;
 
@@ -82,18 +80,14 @@ public class RoomJoin : MonoBehaviour {
 		} 
 		else  {
 			// Create Room
-			if (PlayerPrefs.GetString ("roomname").Equals("") && input_roomname.text == "") {
+			if (input_roomname.text == "") {
 				infoText.color = Color.red;
 				infoText.text = "Name Invalid";
 			} 
 			else {
 
-				if (PlayerPrefs.GetString ("roomname").Equals ("")) {
-					roomName = input_roomname.text;
-					PlayerPrefs.SetString ("roomname", roomName);
-				} else {
-					roomName = PlayerPrefs.GetString ("roomname");
-				}
+				roomName = input_roomname.text;
+	
 				PhotonNetwork.JoinOrCreateRoom (roomName, roomopt, TypedLobby.Default);
 				infoText.color = Color.green;
 				infoText.text = "Joining room...";
@@ -122,6 +116,8 @@ public class RoomJoin : MonoBehaviour {
 		infoText.text = "Can't create room";
 	}
 	void OnJoinedLobby(){
+		Debug.Log ("Joined Lobby");
+
 		inLobby = true;
 		statusText.color = Color.green;
 		statusText.text = "Connected";

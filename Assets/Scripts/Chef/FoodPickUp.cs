@@ -28,6 +28,7 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 	{
 		if (isDragging) {
 			transform.position = Input.mousePosition;
+
 		}
 	}
 
@@ -58,15 +59,19 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 				case "Win":
 					//////FOOD DELIVERY HERE//////
 					coolDown.emptyFood ();
+					Debug.Log ("Put On Window");
 					break;
 				case "Tra":
 					//////THROW FOOD AWAY HERE//////
 					coolDown.binFood();
+					Debug.Log ("Put On Trash");
+
 					break;
-				case "Che":
+				case "Isi":
 					//////COOK FOOD HERE//////
 					if (!chef.isInUse) {
 						coolDown.cookFood();
+						Debug.Log ("Put On IsiUlang");
 						chef.CookThis (gameObject);
 					}
 					break;
@@ -78,8 +83,12 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
 	bool WithinRange(GameObject gameObject){
 		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
-		bool withinXRange = Mathf.Abs(transform.localPosition.x - rectTransform.localPosition.x) < (rectTransform.sizeDelta.x / 2);
-		bool withinYRange = Mathf.Abs(transform.localPosition.y - rectTransform.localPosition.y) < (rectTransform.sizeDelta.y / 2);
+		if (gameObject.activeInHierarchy == false) {
+			return false;
+		}
+		bool withinXRange = Mathf.Abs(GetComponent<RectTransform>().localPosition.x - rectTransform.localPosition.x) < (rectTransform.sizeDelta.x / 2);
+		bool withinYRange = Mathf.Abs(GetComponent<RectTransform>().localPosition.y - rectTransform.localPosition.y) < (rectTransform.sizeDelta.y / 2);
+
 		return withinXRange && withinYRange;
 	}
 }

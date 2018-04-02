@@ -8,8 +8,10 @@ public class WaitingRoom : MonoBehaviour {
 	[SerializeField] Text playerInfo;
 	[SerializeField] Button startButton;
 	[SerializeField] Button backButton;
+	[SerializeField] PhotonView photonView;
 	// Use this for initialization
 	void Start () {
+		photonView = GetComponent<PhotonView> ();
 		//Set Role
 		if (CountBlue () > CountRed ()) {
 			PhotonNetwork.player.SetTeam (PunTeams.Team.red);
@@ -22,15 +24,28 @@ public class WaitingRoom : MonoBehaviour {
 	}
 
 	public void BackButton(){
-		Application.LoadLevel("Title");
+		if (PhotonNetwork.inRoom) {
+			PhotonNetwork.LeaveRoom ();
+		} else {
+			Application.LoadLevel("Title");
+		}
 	}
 	
 	public void StartRoombutton(){
-		if (PhotonNetwork.playerList.Length > 1 || PhotonNetwork.offlineMode) {
+		if (PhotonNetwork.playerList.Length > 0 || PhotonNetwork.offlineMode) {
 			text_info.text = "Starting...";
-			PhotonNetwork.LoadLevel ("Game");
+			photonView.RPC ("GoToGame", PhotonTargets.All);
 		} else {
 			text_info.text = "Not enough players";
+		}
+	}
+
+	[PunRPC]
+	void GoToGame (){
+		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.blue) {
+			PhotonNetwork.LoadLevel ("GameWaiter");
+		} else {
+			PhotonNetwork.LoadLevel ("GameCook");
 		}
 	}
 	IEnumerator regularupdate(){
@@ -88,7 +103,7 @@ public class WaitingRoom : MonoBehaviour {
 	}
 	void StartButtonActivation(){
 		if (PhotonNetwork.isMasterClient) {
-			if (PhotonNetwork.room.PlayerCount > 1) {
+			if (PhotonNetwork.room.PlayerCount > 0) {
 				startButton.interactable = true;
 			} else {
 				startButton.interactable = false;
@@ -98,14 +113,17 @@ public class WaitingRoom : MonoBehaviour {
 			startButton.gameObject.SetActive(false);
 		}
 	}
-	void OnLeftRoom(){
 
-		Application.LoadLevelAsync ("GameStart");
-
+	void OnDisconnectedFromPhoton(){
+		Application.LoadLevel("Title");
 	}
 	void OnPhotonPlayerConnected (PhotonPlayer newPlayer){
 		UpdatePlayerInfo ();
 		StartButtonActivation ();
+	}
+	void OnLeftRoom(){
+		Application.LoadLevel("Title");
+
 	}
 	void OnPhotonPlayerDisconnected (PhotonPlayer otherplayer){
 		UpdatePlayerInfo ();

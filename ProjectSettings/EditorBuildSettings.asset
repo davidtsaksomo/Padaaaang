@@ -18,8 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/WaitingRoom.unity
     guid: dd09940232aadf249b7839c3ccf6deb9
   - enabled: 1
-    path: Assets/Scenes/Game.unity
-    guid: d51d8f9767d53734882eb1894eedaf8b
+    path: Assets/Scenes/GameWaiter.unity
+    guid: fa2ac1a4aab41fe498665bcc85a0cf39
+  - enabled: 1
+    path: Assets/Scenes/GameCook.unity
+    guid: ebe6f1c2009f53344a8d2097b34c2a69
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 7d73d45474fe4244396ba0a01bd9ee12

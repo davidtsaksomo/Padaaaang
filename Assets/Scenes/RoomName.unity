@@ -196,7 +196,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Can't Join
+  m_Text: 
 --- !u!222 &393761189
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -889,7 +889,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.89705884, g: 0.67315805, b: 0.19128463, a: 0}
+  m_BackGroundColor: {r: 0.9803922, g: 0.7137255, b: 0.42352945, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
