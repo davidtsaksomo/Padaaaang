@@ -221,18 +221,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168a14786a0a1614aa4e36ede2431032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodPos:
-  - {fileID: 961590479}
-  - {fileID: 105337161}
-  - {fileID: 473200777}
-  - {fileID: 1822287059}
-  - {fileID: 428135811}
-  - {fileID: 288451333}
-  - {fileID: 987320337}
-  - {fileID: 1016671934}
-  - {fileID: 687085873}
   foodPrefab: {fileID: 1571595716783468, guid: 09ef0857defdb6c4ab23c81198e66713, type: 2}
   parent: {fileID: 122661055}
+  statusBarPrefab: {fileID: 1670710665123556, guid: 167ab83bed7912f46b6804f2c4a86f1b,
+    type: 2}
 --- !u!4 &65383461
 Transform:
   m_ObjectHideFlags: 0

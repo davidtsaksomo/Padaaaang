@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FoodCoolDown : MonoBehaviour {
 	public float coolDownTime;
+	public float maxCoolDownTime;
 	public float binCoolDown;
 	public float emptyCoolDown;
 	public float cookCoolDown;
@@ -14,6 +15,7 @@ public class FoodCoolDown : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		coolDownTime = 0;
+		maxCoolDownTime = 0;
 		InvokeRepeating ("decCoolDown", 0f, 0.1f);
 		isInCoolDown = false;
 		foodSprite = GetComponent<Image>().sprite;
@@ -21,6 +23,9 @@ public class FoodCoolDown : MonoBehaviour {
 
 	void setCoolDownTime(float time){
 		coolDownTime = time;
+		if (time > maxCoolDownTime) {
+			maxCoolDownTime = time;
+		}
 	}
 
 	void decCoolDown(){
@@ -29,6 +34,9 @@ public class FoodCoolDown : MonoBehaviour {
 		}
 		if (coolDownTime < 0) {
 			coolDownTime = 0;
+		}
+		if (coolDownTime == 0) {
+			maxCoolDownTime = 0;
 		}
 		checkCoolDown ();
 	}
