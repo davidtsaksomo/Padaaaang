@@ -12,6 +12,8 @@ TagManager:
   - DragDestination
   - FoodHolder
   - ChefNetworkManager
+  - rice
+  - waiterCanvas
   layers:
   - Default
   - TransparentFX

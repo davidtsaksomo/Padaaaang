@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68759da1a58d52f45b7e52065883528d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodPrefab: {fileID: 1505075281700028}
 --- !u!114 &114298713539530484
 MonoBehaviour:
   m_ObjectHideFlags: 1

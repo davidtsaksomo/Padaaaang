@@ -19,6 +19,7 @@ public class GenerateOrder : MonoBehaviour {
 	public static GameObject[] orders = new GameObject[3]; // 0-2
 	public static GameObject[] foods = new GameObject[3]; // 0-2
 	public GameObject orderPrefab;
+	public GameObject orderPrefab2;
 	public GameObject foodPrefab;
 	public Transform canvas;
 	public Text queueCount;
@@ -100,10 +101,15 @@ public class GenerateOrder : MonoBehaviour {
 		order.GetComponent<RectTransform> ().offsetMax = new Vector2 (-right3, -top);
 	}
 
-
-
-
-
+	bool isMember(int[] foodId, int id) {
+		for (int i = 0; i < foodId.Length; i++) {
+			if (foodId [i] == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+		
 	void InstantiateOrder() {
 		//order penuh
 		if (orders [0] != null && orders [1] != null && orders [2] != null) {
@@ -112,33 +118,53 @@ public class GenerateOrder : MonoBehaviour {
 				photonView.RPC ("GameOver", PhotonTargets.All);
 			}
 		} else {
-			GameObject newOrder = (GameObject)Instantiate (orderPrefab, canvas);
+			int foodOrderSize = Random.Range (1, 3);
+			GameObject newOrder = null;
 			int customerID = Random.Range(0, CustomerDatabase.count);
-			int foodID = Random.Range(0, FoodDatabase.count);
+
+			if (foodOrderSize == 1) {
+				newOrder = (GameObject)Instantiate (orderPrefab, canvas);
+			} else if (foodOrderSize == 2) {
+				newOrder = (GameObject)Instantiate (orderPrefab2, canvas);
+			}
+
+			int[] foodID = new int[foodOrderSize];
+			foodID[0] = Random.Range(0, FoodDatabase.count);
+		
+			for (int i = 1; i < foodOrderSize; i++) { 
+				int id = Random.Range (0, FoodDatabase.count);
+				while (isMember (foodID, id)) {
+					id = Random.Range (0, FoodDatabase.count);
+				}
+				foodID [i] = id;
+			}	
+
 			OrderPrefab newOrderRef = newOrder.GetComponent<OrderPrefab> ();
 			newOrderRef.customer.GetComponent<Image> ().sprite = CustomerDatabase.instance.customerDatabase [customerID].image;
-			newOrderRef.foodOrder.GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
-			newOrderRef.foodOrder.GetComponent<FoodID> ().id = foodID;
+			for (int i = 0; i < foodOrderSize; i++) {
+				newOrderRef.foodOrder [i].GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID [i]].image;
+				newOrderRef.foodOrder [i].GetComponent<FoodID> ().id = foodID[i];
+			}
 
-			if (orders [0] == null) { //kiri kosong
-				SetOrderLeft (newOrder);
-				orders [0] = newOrder;
-			} else if (orders [1] == null) { //kiri isi, tengah kosong
-				SetOrderMiddle (newOrder);
-				orders [1] = newOrder;
-			} else if (orders [2] == null) { //kiri isi, tengah isi, kanan kosong
-				SetOrderRight (newOrder);
-				orders [2] = newOrder;
+			if (newOrder != null) {
+				if (orders [0] == null) { //kiri kosong
+					SetOrderLeft (newOrder);
+					orders [0] = newOrder;
+				} else if (orders [1] == null) { //kiri isi, tengah kosong
+					SetOrderMiddle (newOrder);
+					orders [1] = newOrder;
+				} else if (orders [2] == null) { //kiri isi, tengah isi, kanan kosong
+					SetOrderRight (newOrder);
+					orders [2] = newOrder;
+				}
 			}
 		}
 		UpdateQueueText ();
-
 	}
 
 	[PunRPC]
 	void InstantiateFood(int foodID, int waiterID) {
 		if (PhotonNetwork.player.ID == waiterID) {
-			Debug.Log (foodActive.Count);
 			if (foodActive.Count < 3) {
 				GameObject newFood = (GameObject)Instantiate (foodPrefab, canvas);
 				newFood.GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
