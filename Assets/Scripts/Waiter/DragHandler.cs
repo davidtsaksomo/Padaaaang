@@ -2,20 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 	public static GameObject itemBeingDragged;
 	GameObject[] dragDestinations;
 	Vector3 startPosition;
+	public GameObject foodPrefab;
+	GameObject canvasObject;
+	Transform canvas;
 
 	void Start(){
 		dragDestinations = GameObject.FindGameObjectsWithTag ("DragDestination");
+		canvasObject = GameObject.FindGameObjectWithTag("waiterCanvas");
+		canvas = canvasObject.GetComponent<Transform>();
 	}
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
 	{
-		itemBeingDragged = gameObject;
+		Debug.Log ("begin drag");
+		if (gameObject.tag == "rice") {
+			itemBeingDragged = (GameObject)Instantiate (foodPrefab, canvas);
+			itemBeingDragged.GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [0].image;
+			itemBeingDragged.GetComponent<FoodID> ().id = 0;
+			itemBeingDragged.GetComponent<Transform> ().position = transform.position;
+		} else {
+			itemBeingDragged = gameObject;
+		}
 		startPosition = transform.position;
 	}
 	#endregion
@@ -24,7 +38,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		transform.position = Input.mousePosition;
+		itemBeingDragged.GetComponent<Transform>().position = Input.mousePosition;
 	}
 
 	#endregion
@@ -37,14 +51,20 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		int withinRange = WithinRange ();
 		if (withinRange > 0) {
 			order = GenerateOrder.orders [withinRange - 1];
-			if (MatchOrder (gameObject, order)) {
-				Destroy (order);
-				Destroy (gameObject);
-				GenerateOrder.orders [withinRange - 1] = null;
-				GenerateOrder.instance.UpdateOrderPosition ();
-				Debug.Log ("count before remove " + GenerateOrder.foodActive.Count);
-				GenerateOrder.foodActive.Remove (gameObject);
-				Debug.Log ("count after remove " + GenerateOrder.foodActive.Count);
+			int idxMatchOrder = MatchOrder (itemBeingDragged, order);
+			if (idxMatchOrder != -1) {
+				OrderPrefab newOrderRef = order.GetComponent<OrderPrefab> ();
+				if (newOrderRef.foodOrder.Count > 1) {
+					order.transform.GetChild (2 + idxMatchOrder).gameObject.SetActive (false);
+					order.transform.GetChild (order.transform.childCount - 1).gameObject.SetActive (false);
+					newOrderRef.foodOrder.RemoveAt (idxMatchOrder);
+				} else {
+					Destroy (order);
+					Destroy (itemBeingDragged);
+					GenerateOrder.orders [withinRange - 1] = null;
+					GenerateOrder.instance.UpdateOrderPosition ();
+					GenerateOrder.foodActive.Remove (itemBeingDragged);
+				}
 			}
 		} else {
 			bool found = false;
@@ -54,8 +74,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 					found = true;
 					switch (dragDestinations [i].name.Substring (0, 3)) {
 					case "Tra":
-						GenerateOrder.foodActive.Remove (gameObject);
-						Destroy (gameObject);
+						GenerateOrder.foodActive.Remove (itemBeingDragged);
+						Destroy (itemBeingDragged);
 						break;
 					}
 				}
@@ -63,14 +83,18 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 			}
 		}
+
+		if (this.tag == "rice") {
+			Destroy (itemBeingDragged);
+		} 
+		itemBeingDragged.GetComponent<Transform> ().position = startPosition;
 		itemBeingDragged = null;
-		transform.position = startPosition;
 	}
 
 	#endregion
 
 	int WithinRange(){
-		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
+		RectTransform rectTransform = itemBeingDragged.GetComponent<RectTransform> ();
 		if (rectTransform.localPosition.y >= -107 && rectTransform.localPosition.y <= 1000) {
 			if (rectTransform.localPosition.x >= -800 && rectTransform.localPosition.x <= -450) {
 				return 1; //left
@@ -98,8 +122,13 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		return withinXRange && withinYRange;
 	}
 		
-	bool MatchOrder(GameObject food, GameObject order) {
+	int MatchOrder(GameObject food, GameObject order) {
 		OrderPrefab newOrderRef = order.GetComponent<OrderPrefab> ();
-		return food.GetComponent<FoodID> ().id == newOrderRef.foodOrder.GetComponent<FoodID> ().id;
+		for (int i = 0; i < newOrderRef.foodOrder.Count; i++) {
+			if (food.GetComponent<FoodID> ().id == newOrderRef.foodOrder [i].GetComponent<FoodID> ().id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

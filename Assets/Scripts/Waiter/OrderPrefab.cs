@@ -5,5 +5,5 @@ using UnityEngine;
 public class OrderPrefab : MonoBehaviour {
 
 	public GameObject customer;
-	public GameObject foodOrder;
+	public List<GameObject> foodOrder = new List<GameObject>();
 }
