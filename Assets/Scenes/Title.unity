@@ -269,7 +269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &318054176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -289,7 +289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000038146973, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &388718978
@@ -1754,9 +1754,9 @@ MonoBehaviour:
   inputRoomName: {fileID: 2118013288}
   nameField: {fileID: 627312614}
   roomNameField: {fileID: 1303224665}
+  stopTimer: 0.5
   infoText: {fileID: 399419361}
   statusText: {fileID: 103450563}
-  input_roomname: {fileID: 1303224665}
 --- !u!4 &1347588307
 Transform:
   m_ObjectHideFlags: 0
