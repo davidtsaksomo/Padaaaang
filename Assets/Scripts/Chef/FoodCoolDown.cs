@@ -11,6 +11,8 @@ public class FoodCoolDown : MonoBehaviour {
 	public float cookCoolDown;
 	public bool isInCoolDown;
 	public Sprite emptySprite;
+	private AudioSource sounds;
+	public AudioClip droppingPlate;
 	Sprite foodSprite;
 	// Use this for initialization
 	void Start () {
@@ -19,6 +21,7 @@ public class FoodCoolDown : MonoBehaviour {
 		InvokeRepeating ("decCoolDown", 0f, 0.1f);
 		isInCoolDown = false;
 		foodSprite = GetComponent<Image>().sprite;
+		sounds = GetComponent<AudioSource> ();
 	}
 
 	void setCoolDownTime(float time){
@@ -50,6 +53,10 @@ public class FoodCoolDown : MonoBehaviour {
 			//UNCOOLDOWN IMAGE HERE
 			Image image = GetComponent<Image> ();
 			image.sprite = foodSprite;
+			if (isInCoolDown) {
+				sounds.clip = droppingPlate;
+				sounds.Play ();
+			}
 		}
 		isInCoolDown = coolDownTime > 0;
 	}
