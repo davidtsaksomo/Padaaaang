@@ -1754,7 +1754,7 @@ MonoBehaviour:
   inputRoomName: {fileID: 2118013288}
   nameField: {fileID: 627312614}
   roomNameField: {fileID: 1303224665}
-  stopTimer: 0.5
+  stopTimer: 0.35
   infoText: {fileID: 399419361}
   statusText: {fileID: 103450563}
 --- !u!4 &1347588307

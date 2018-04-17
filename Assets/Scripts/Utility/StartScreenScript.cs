@@ -46,13 +46,6 @@ public class StartScreenScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began && status == 0) {
-			background.SetActive(false);
-			backgroundBlur.SetActive(true);
-			inputName.SetActive(true);
-			inputRoomName.SetActive(false);
-			status = 1;
-		}*/
 		if (status == 0) {
 			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) {
 				displayInputName ();
