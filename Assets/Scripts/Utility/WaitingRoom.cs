@@ -91,9 +91,11 @@ public class WaitingRoom : MonoBehaviour {
 	[PunRPC]
 	void GoToGame (){
 		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.blue) {
-			PhotonNetwork.LoadLevel ("GameWaiter");
+			//PhotonNetwork.LoadLevel ("GameWaiter");
+			PhotonNetwork.LoadLevel ("GameWaiter (plus door)");
 		} else {
-			PhotonNetwork.LoadLevel ("GameCook");
+			//PhotonNetwork.LoadLevel ("GameCook");
+			PhotonNetwork.LoadLevel ("GameCook (plus door)");
 		}
 	}
 	IEnumerator regularupdate(){

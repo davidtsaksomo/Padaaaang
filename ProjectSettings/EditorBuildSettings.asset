@@ -29,3 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 19227bc0488f83c4fb346a48cf15a637
+  - enabled: 1
+    path: Assets/Scenes/GameWaiter (plus door).unity
+    guid: 93900ae1f2495af43bbd20b64bb82ebe
+  - enabled: 1
+    path: Assets/Scenes/GameCook (plus door).unity
+    guid: 4adfcafb43f27bf4aa8a0b5bee281b99

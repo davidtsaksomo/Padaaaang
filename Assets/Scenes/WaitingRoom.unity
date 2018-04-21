@@ -362,7 +362,7 @@ MonoBehaviour:
   photonView: {fileID: 0}
   leftDoor: {fileID: 1951613239}
   rightDoor: {fileID: 39017395}
-  stopTimer: 0.5
+  stopTimer: 0.4
   stopTimer2: 0.5
 --- !u!4 &741883306
 Transform:
