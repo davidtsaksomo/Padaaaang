@@ -12,6 +12,7 @@ public class WaitingRoom : MonoBehaviour {
 	[SerializeField] GameObject leftDoor;
 	[SerializeField] GameObject rightDoor;
 	public float stopTimer;
+	public float stopTimer2;
 	private float curTimer;
 	/**
 	 * Status:
@@ -45,10 +46,17 @@ public class WaitingRoom : MonoBehaviour {
 				status = 2;
 				leftDoor.transform.position = new Vector3 (Screen.width / 4, leftDoor.transform.position.y, leftDoor.transform.position.z);
 				rightDoor.transform.position = new Vector3 (Screen.width / 4 * 3, rightDoor.transform.position.y, rightDoor.transform.position.z);
-				photonView.RPC ("GoToGame", PhotonTargets.All);
+				curTimer = 0;
 			} else {
 				leftDoor.transform.position += new Vector3 (Screen.width / 2 * Time.deltaTime / stopTimer, 0, 0);
 				rightDoor.transform.position -= new Vector3 (Screen.width / 2 * Time.deltaTime / stopTimer, 0, 0);
+				curTimer += Time.deltaTime;
+			}
+		} else if (status == 2) {
+			if (curTimer >= stopTimer2) {
+				status = 3;
+				photonView.RPC ("GoToGame", PhotonTargets.All);
+			} else {
 				curTimer += Time.deltaTime;
 			}
 		}
