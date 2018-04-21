@@ -222,7 +222,7 @@ public class StartScreenScript : MonoBehaviour {
 	void OnJoinedRoom()
 	{	
 		//Pindah level
-		PhotonNetwork.LoadLevel("WaitingRoom");
+		PhotonNetwork.LoadLevel("CharSelect");
 	}
 	void OnPhotonJoinRoomFailed(){
 
