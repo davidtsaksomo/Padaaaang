@@ -42,6 +42,10 @@ public class StartScreenScript : MonoBehaviour {
 		PlayerPrefs.DeleteKey ("roomname");
 		nameField.GetComponent<InputField>().text = PlayerPrefs.GetString ("playerName", "Player");
 		status = 0;
+		MusicManager musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
+		if (!musicManager.playingMusic.Equals ("theme")) {
+			musicManager.playTheme ();
+		}
 	}
 	
 	// Update is called once per frame
