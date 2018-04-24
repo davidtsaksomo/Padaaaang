@@ -348,8 +348,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   themeMusic: {fileID: 8300000, guid: 5e93c8cb364e00743a73bc3bf24ec63b, type: 3}
   inGameMusic: {fileID: 0}
-  fadeSpeed: 0.1
+  fadeSpeed: 0.9
   playingMusic: 
+  volume: 0
 --- !u!4 &586944039
 Transform:
   m_ObjectHideFlags: 0
