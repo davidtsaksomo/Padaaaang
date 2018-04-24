@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour {
 	public AudioClip inGameMusic;
 	public float fadeSpeed;
 	public string playingMusic = "";
+	public float volume;
 	private AudioSource sounds;
 	private static bool created = false;
 
@@ -32,7 +33,7 @@ public class MusicManager : MonoBehaviour {
 		sounds.clip = themeMusic;
 		sounds.time = 0f;
 		sounds.Play();
-		InvokeRepeating ("loopTheme",0f,0.05f);
+		InvokeRepeating ("loopTheme",0f,0.02f);
 		playingMusic = "theme";
 	}
 
@@ -44,20 +45,20 @@ public class MusicManager : MonoBehaviour {
 
 	public void stopTheme(){
 		CancelInvoke ("loopTheme");
-		fadeOut ();
+		Debug.Log ("fade");
+		InvokeRepeating ("fadeOut",0f,0.1f);
 		playingMusic = "";
 	}
 
 	public void setVolume(float vol){
 		sounds.volume = vol;
 	}
-
-	public IEnumerator fadeOut(){
-		while (sounds.volume > 0) {
-			sounds.volume -= fadeSpeed;
-			yield return new WaitForSeconds (0.1f);
+	public void fadeOut(){
+		sounds.volume = sounds.volume * fadeSpeed;
+		if(sounds.volume <= 0.01){
+			sounds.volume = 0;
+			sounds.Stop();
+			CancelInvoke("fadeOut");
 		}
-		sounds.volume = 0;
-		sounds.Stop ();
 	}
 }
