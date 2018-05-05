@@ -107,7 +107,8 @@ public class WaitingRoom : MonoBehaviour {
 
 	IEnumerator regularupdate(){
 		UpdatePlayerInfo ();
-		yield return new WaitForSeconds(5f);
+		StartButtonActivation ();
+		yield return new WaitForSeconds(2f);
 		StartCoroutine ("regularupdate");
 	}
 	int CountChef(){
@@ -129,7 +130,15 @@ public class WaitingRoom : MonoBehaviour {
 		}
 		return blue;
 	}
-
+	int CountNULL(){
+		int blue = 0;
+		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+			if (player.GetTeam () == PunTeams.Team.none) {
+				blue++;
+			}
+		}
+		return blue;
+	}
 	void UpdatePlayerInfo(){
 		string playerlist;
 		int number = 1;
@@ -160,7 +169,7 @@ public class WaitingRoom : MonoBehaviour {
 	}
 	void StartButtonActivation(){
 		if (PhotonNetwork.isMasterClient) {
-			if (PhotonNetwork.room.PlayerCount > 0) {
+			if (PhotonNetwork.room.PlayerCount > 0 && CountNULL() == 0) {
 				startButton.interactable = true;
 			} else {
 				startButton.interactable = false;
