@@ -55,8 +55,10 @@ MonoBehaviour:
   customerDatabase:
   - name: Cewek
     image: {fileID: 21300000, guid: bc8c8df9bd2533a409786a0a566e1ecf, type: 3}
+    angryTime: 15
   - name: Cowok
     image: {fileID: 21300000, guid: dae382abc315a0c40894e26e530c66e4, type: 3}
+    angryTime: 15
 --- !u!114 &114342007926173770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,7 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodDatabase:
-  - name: AyamPop
+  - name: Nasi
+    image: {fileID: 21300000, guid: d7d7e6626c659ca4bbf010ca986a0960, type: 3}
+  - name: Ayam
     image: {fileID: 21300000, guid: 1eeb165c8f18da64fa32b464199edf90, type: 3}
   - name: Ikan
     image: {fileID: 21300000, guid: 9890b6c173a1b5b4a9c16d7af6f64c3f, type: 3}

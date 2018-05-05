@@ -31,8 +31,4 @@ public class ChefNetworkManager : MonoBehaviour {
 		return blue;
 	}
 
-	[PunRPC]
-	void GameOver(){
-		PhotonNetwork.LoadLevel ("GameOver");
-	}
 }

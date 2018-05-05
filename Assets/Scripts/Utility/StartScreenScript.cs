@@ -31,7 +31,6 @@ public class StartScreenScript : MonoBehaviour {
 	[SerializeField] Text statusText;
 	//Properties for room
 	private string roomName;
-	private RoomInfo[] roomsList;
 	private RoomOptions roomopt;
 
 	bool inLobby = false;
@@ -51,7 +50,11 @@ public class StartScreenScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (status == 0) {
-			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) {
+			bool click = false;
+			#if UNITY_EDITOR
+				click = Input.GetMouseButtonDown(0);
+			#endif
+			if ((Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) || click) {
 				displayInputName ();
 				status = 11;
 				curTimer = 0f;
@@ -158,8 +161,11 @@ public class StartScreenScript : MonoBehaviour {
 
 		//Set the room options
 		roomopt = new RoomOptions(){IsVisible = true, MaxPlayers = 5};
+		roomopt.PlayerTtl = 0;
+		roomopt.EmptyRoomTtl = 0;
 		roomopt.PublishUserId = true;
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString ("playerName", "Player");
+		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
 
 		//Connect
 		statusText.color = Color.yellow;
@@ -176,13 +182,6 @@ public class StartScreenScript : MonoBehaviour {
 			statusText.text = "Connected";
 		}
 	}
-
-	//Updating the room
-	void UpdateRoom()
-	{
-		roomsList = PhotonNetwork.GetRoomList();
-	}
-
 
 	public void JoinRoom(){
 

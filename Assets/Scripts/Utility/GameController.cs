@@ -4,41 +4,60 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
-	Room room;
-	[SerializeField] GameObject chefInterface;
-	[SerializeField] GameObject waiterInterface;
-	PhotonView photonView;
-	[SerializeField] Text menus;
-	bool isChef = false;
-	bool isWaiter = false;
+	PhotonView photonview;
+	int donetarget;
+	[SerializeField] int maxfailure;
+	int done = 0;
+	int failure = 0;
 	void Awake(){
-		photonView = GetComponent<PhotonView> ();
-		room = PhotonNetwork.room;
+		photonview = GetComponent<PhotonView> ();
 	}
 	// Use this for initialization
 	void Start () {			
-		menus.text = "";
-		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) {
-			chefInterface.SetActive (true);
-			isChef = true;
-		} else if(PhotonNetwork.player.GetTeam() == PunTeams.Team.blue){
-			waiterInterface.SetActive (true);
-			isWaiter = true;
-		}
-	}
-	
-	// Update is called once per frame
-	public void SendMenu (string name) {
-		photonView.RPC ("GetMenu", PhotonTargets.All, name);
-	}
-	[PunRPC]
-	void GetMenu (string name){
-		if(isWaiter){
-			menus.text += "\n"+name;
-		}
+		donetarget = CountWaiter ();
+		maxfailure = maxfailure * donetarget;
+
 	}
 
-	public void GameOver() {
-		Application.LoadLevel ("GameOver");
+	int CountWaiter(){
+		int blue = 0;
+		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+			if (player.GetTeam () == PunTeams.Team.blue) {
+				blue++;
+			}
+		}
+		return blue;
+	}
+	[PunRPC]
+	void Done(){
+		if (PhotonNetwork.isMasterClient) {
+			done++;
+			if (done >= donetarget && failure < maxfailure) {
+				//Level Complete Here
+				photonview.RPC ("GameComplete", PhotonTargets.All);
+
+			}
+		}
+
+	}
+	[PunRPC]
+	void Failure(){
+		if (PhotonNetwork.isMasterClient) {
+			failure++;
+			if (failure >= maxfailure) {
+				//Level End Here
+
+				photonview.RPC ("GameOver", PhotonTargets.All);
+			}
+		}
+	}
+	[PunRPC]
+	void GameOver(){
+		PhotonNetwork.LoadLevel ("GameOver");
+	}
+	[PunRPC]
+	void GameComplete(){
+		LevelController.level++;
+		PhotonNetwork.LoadLevel ("LevelStart");
 	}
 }

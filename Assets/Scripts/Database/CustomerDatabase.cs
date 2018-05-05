@@ -23,4 +23,5 @@ public class CustomerDatabase : MonoBehaviour {
 public class Customer {
 	public string name;
 	public Sprite image;
+	public int angryTime;
 }

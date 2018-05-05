@@ -26,6 +26,7 @@ public class WaitingRoom : MonoBehaviour {
 	void Start () {
 		photonView = GetComponent<PhotonView> ();
 		//Set Role
+		Debug.Log("Waiter: " + CountWaiter() + ", Chef: "+ CountChef());
 		if (CountWaiter () > CountChef ()) {
 			PhotonNetwork.player.SetTeam (PunTeams.Team.red);
 		} else {
@@ -94,14 +95,16 @@ public class WaitingRoom : MonoBehaviour {
 
 	[PunRPC]
 	void GoToGame (){
+		
+		LevelController.level = 1;
 		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.blue) {
-			//PhotonNetwork.LoadLevel ("GameWaiter");
-			PhotonNetwork.LoadLevel ("GameWaiter (plus door)");
+			LevelController.role = LevelController.ROLE_WAITER;
 		} else {
-			//PhotonNetwork.LoadLevel ("GameCook");
-			PhotonNetwork.LoadLevel ("GameCook (plus door)");
+			LevelController.role = LevelController.ROLE_CHEF;
 		}
+		PhotonNetwork.LoadLevel ("LevelStart");
 	}
+
 	IEnumerator regularupdate(){
 		UpdatePlayerInfo ();
 		yield return new WaitForSeconds(5f);

@@ -59,11 +59,15 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 					order.transform.GetChild (order.transform.childCount - 1).gameObject.SetActive (false);
 					newOrderRef.foodOrder.RemoveAt (idxMatchOrder);
 				} else {
+					GenerateOrder.OrderList.Remove (order);
+
 					Destroy (order);
 					Destroy (itemBeingDragged);
 					GenerateOrder.orders [withinRange - 1] = null;
 					GenerateOrder.instance.UpdateOrderPosition ();
 					GenerateOrder.foodActive.Remove (itemBeingDragged);
+					GenerateOrder.instance.CheckDone ();
+
 				}
 			}
 		} else {

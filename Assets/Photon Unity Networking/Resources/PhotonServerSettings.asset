@@ -46,4 +46,7 @@ MonoBehaviour:
   - GoToGame
   - InstantiateFood
   - GameOver
+  - Done
+  - Failure
+  - GameComplete
   DisableAutoOpenWizard: 1
