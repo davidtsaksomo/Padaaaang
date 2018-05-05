@@ -40,13 +40,19 @@ public class GenerateOrder : MonoBehaviour {
 	void Awake(){
 		if (instance == null) {
 			instance = this;
+			instance.Init();
 		} else {
+			instance.Init();
 			Destroy (this);
 		}
+
+
+	}
+
+	public void Init(){
 		OrderList.Clear ();
 		foodActive.Clear ();
 		pendingorders = 0;
-
 	}
 	// Use this for initialization
 	void Start () {

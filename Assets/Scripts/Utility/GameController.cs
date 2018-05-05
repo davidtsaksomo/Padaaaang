@@ -48,6 +48,10 @@ public class GameController : MonoBehaviour {
 				//Level End Here
 
 				photonview.RPC ("GameOver", PhotonTargets.All);
+			} else {
+				float percentage = 1f - (failure / (float) maxfailure);
+				photonview.RPC ("UpdateBar", PhotonTargets.All, percentage);
+
 			}
 		}
 	}

@@ -57,15 +57,20 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				if (newOrderRef.foodOrder.Count > 1) {
 					order.transform.GetChild (2 + idxMatchOrder).gameObject.SetActive (false);
 					order.transform.GetChild (order.transform.childCount - 1).gameObject.SetActive (false);
+					GenerateOrder.foodActive.Remove (itemBeingDragged);
+
+					Destroy (itemBeingDragged);
+
 					newOrderRef.foodOrder.RemoveAt (idxMatchOrder);
 				} else {
 					GenerateOrder.OrderList.Remove (order);
 
 					Destroy (order);
+					GenerateOrder.foodActive.Remove (itemBeingDragged);
+
 					Destroy (itemBeingDragged);
 					GenerateOrder.orders [withinRange - 1] = null;
 					GenerateOrder.instance.UpdateOrderPosition ();
-					GenerateOrder.foodActive.Remove (itemBeingDragged);
 					GenerateOrder.instance.CheckDone ();
 
 				}
