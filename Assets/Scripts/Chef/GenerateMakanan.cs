@@ -21,6 +21,9 @@ public class GenerateMakanan : MonoBehaviour {
 			foods [i].transform.localPosition = foodPos [i].transform.localPosition;
 			//penbghitungan foodID
 			int foodID = i%FoodDatabase.count;
+			if (foodID == 0) {
+				foodID = Random.Range(1,FoodDatabase.count);
+			}
 			foods[i].GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
 			foods[i].GetComponent<FoodID> ().id = foodID;
 			//assigning status bar

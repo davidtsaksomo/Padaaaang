@@ -53,12 +53,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customerDatabase:
-  - name: Cewek
-    image: {fileID: 21300000, guid: bc8c8df9bd2533a409786a0a566e1ecf, type: 3}
+  - name: abang
+    image: {fileID: 21300000, guid: 0d289b4f9c624d94dad464f813aac0f9, type: 3}
     angryTime: 15
-  - name: Cowok
-    image: {fileID: 21300000, guid: dae382abc315a0c40894e26e530c66e4, type: 3}
-    angryTime: 15
+  - name: mbak
+    image: {fileID: 21300000, guid: 817a903b92d86324da0c89367d86d8c6, type: 3}
+    angryTime: 14
+  - name: abang1
+    image: {fileID: 21300000, guid: 44ad82d97c230564fa61612f4208dcf6, type: 3}
+    angryTime: 14
+  - name: mbak2
+    image: {fileID: 21300000, guid: 1b7a346bf26664a43ae9952cebdf46c3, type: 3}
+    angryTime: 13
+  - name: abang2
+    image: {fileID: 21300000, guid: 24fa28e32ad679f4b84ee2472da05f3e, type: 3}
+    angryTime: 13
+  - name: mbak3
+    image: {fileID: 21300000, guid: 1d217d4b03b7d404db9c2da42ed290e5, type: 3}
+    angryTime: 12
+  - name: abang3
+    image: {fileID: 21300000, guid: 0d2f4b02db1b86d4cb4b595dea773d97, type: 3}
+    angryTime: 12
+  - name: mbak4
+    image: {fileID: 21300000, guid: baa206d923bec7946b54afa9a1bc7b82, type: 3}
+    angryTime: 11
 --- !u!114 &114342007926173770
 MonoBehaviour:
   m_ObjectHideFlags: 1

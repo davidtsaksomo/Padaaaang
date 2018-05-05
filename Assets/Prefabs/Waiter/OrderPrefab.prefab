@@ -122,6 +122,8 @@ MonoBehaviour:
   customer: {fileID: 1061869646940004}
   foodOrder:
   - {fileID: 1883296053033510}
+  AngryTime: 0
+  indexPos: -1
 --- !u!114 &114367767823705850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,7 +292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: 1007}
+  m_AnchoredPosition: {x: 73, y: 902}
   m_SizeDelta: {x: 485, y: 664}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224921950245001366

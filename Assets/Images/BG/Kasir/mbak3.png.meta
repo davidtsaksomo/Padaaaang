@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0f613467811a9014b809fb20908d9a30
-timeCreated: 1525532498
+guid: 1d217d4b03b7d404db9c2da42ed290e5
+timeCreated: 1525533650
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: tong sampah_0
+    21300000: mbak3_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,13 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tong sampah_0
+      name: mbak3_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 62
         y: 0
-        width: 276
-        height: 209
+        width: 350
+        height: 517
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

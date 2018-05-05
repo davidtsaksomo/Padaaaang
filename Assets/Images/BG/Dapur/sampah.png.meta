@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0304638f1d054c84d829f790054c480b
-timeCreated: 1522670178
+timeCreated: 1525530930
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -94,10 +94,10 @@ TextureImporter:
       name: sampah_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 87
-        width: 245
-        height: 207
+        x: 17
+        y: 650
+        width: 293
+        height: 421
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

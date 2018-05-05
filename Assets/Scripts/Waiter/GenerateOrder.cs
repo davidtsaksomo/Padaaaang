@@ -10,8 +10,8 @@ public class GenerateOrder : MonoBehaviour {
 	float right1 = 783.3f;
 	float right2 = 167.3f;
 	float right3 = -442.7f;
-	float top = -884.5f;
-	float bottom = 285.5f;
+	float top = -915.5f;
+	float bottom = 316.5f;
 
 	public static int pendingorders = 0;
 	public static GenerateOrder instance;
@@ -76,18 +76,18 @@ public class GenerateOrder : MonoBehaviour {
 	}
 
 	public void UpdateOrderPosition() {
-		GameObject order;
-		if (orders [0] == null && orders[1] != null) { //kiri kosong & tengah isi
-			SetOrderLeft (orders[1]);
-			orders [0] = orders [1];
-			orders [1] = null;
-		}
-
-		if (orders[1] == null && orders[2] != null) { //tengah kosong & kanan isi
-			SetOrderMiddle (orders[2]);
-			orders [1] = orders [2];
-			orders [2] = null;
-		}
+//		GameObject order;
+//		if (orders [0] == null && orders[1] != null) { //kiri kosong & tengah isi
+//			SetOrderLeft (orders[1]);
+//			orders [0] = orders [1];
+//			orders [1] = null;
+//		}
+//
+//		if (orders[1] == null && orders[2] != null) { //tengah kosong & kanan isi
+//			SetOrderMiddle (orders[2]);
+//			orders [1] = orders [2];
+//			orders [2] = null;
+//		}
 		if(pendingorders > 0){
 			UpdatePendingOrders ();
 		}
@@ -152,7 +152,7 @@ public class GenerateOrder : MonoBehaviour {
 
 			int foodOrderSize = Random.Range (1, 3);
 			GameObject newOrder = null;
-			int customerID = Random.Range(0, CustomerDatabase.count);
+			int customerID = Random.Range(0, Mathf.Min(CustomerDatabase.count,(LevelController.level+1)));
 
 			if (foodOrderSize == 1) {
 				newOrder = (GameObject)Instantiate (orderPrefab, canvas);

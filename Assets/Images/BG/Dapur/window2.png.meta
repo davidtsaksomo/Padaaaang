@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a8ca2ef97fd9de14db7513d1baeac1c7
-timeCreated: 1522670076
+guid: c5e6eff35f8f0a446a614d395175180b
+timeCreated: 1525531090
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: tempat isi ulang_0
+    21300000: window2_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,13 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tempat isi ulang_0
+      name: window2_0
       rect:
         serializedVersion: 2
-        x: 159
-        y: 0
-        width: 135
-        height: 294
+        x: 396
+        y: 1481
+        width: 273
+        height: 273
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
