@@ -10,11 +10,14 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 	public ChefCoolDown chef;
 	private bool isDragging = false;
 	Vector3 startPosition;
+	private AudioSource sounds;
+	public AudioClip droppingPlate;
 
 	void Start(){
 		dragDestinations = GameObject.FindGameObjectsWithTag ("DragDestination");
 		chef = GameObject.Find ("IsiUlang").GetComponent<ChefCoolDown>();
 		networkManager = GameObject.FindGameObjectWithTag ("ChefNetworkManager").GetComponent<ChefNetworkManager>();
+		sounds = GetComponent<AudioSource> ();
 	}
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -96,6 +99,10 @@ public class FoodPickUp : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 				}
 			}
 			i++;
+		}
+		if (!found) {
+			sounds.clip = droppingPlate;
+			sounds.Play ();
 		}
 	}
 

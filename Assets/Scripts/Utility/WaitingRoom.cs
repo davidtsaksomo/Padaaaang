@@ -38,6 +38,10 @@ public class WaitingRoom : MonoBehaviour {
 		status = 0;
 		StartCoroutine ("regularupdate");
 		StartButtonActivation ();
+		MusicManager musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager>();
+		if (musicManager.playingMusic.Equals("theme")) {
+			musicManager.stopTheme ();
+		}
 	}
 
 	void Update() {
