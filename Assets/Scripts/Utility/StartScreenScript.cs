@@ -42,7 +42,9 @@ public class StartScreenScript : MonoBehaviour {
 		nameField.GetComponent<InputField>().text = PlayerPrefs.GetString ("playerName", "Player");
 		status = 0;
 		MusicManager musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
+		Debug.Log (musicManager.playingMusic.Equals("theme"));
 		if (!musicManager.playingMusic.Equals ("theme")) {
+			musicManager.setVolume (1f);
 			musicManager.playTheme ();
 		}
 	}

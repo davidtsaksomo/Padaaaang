@@ -30,6 +30,7 @@ public class MusicManager : MonoBehaviour {
 	}
 
 	public void playTheme(){
+		CancelInvoke("fadeOut");
 		sounds.clip = themeMusic;
 		sounds.time = 0f;
 		sounds.Play();
