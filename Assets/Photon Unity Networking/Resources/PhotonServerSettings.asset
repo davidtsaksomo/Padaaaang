@@ -50,4 +50,5 @@ MonoBehaviour:
   - Failure
   - GameComplete
   - UpdateBar
+  - PanggilSatpam
   DisableAutoOpenWizard: 1

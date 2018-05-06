@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4fda92ff99e5f764f8cd68202b98cbca
-timeCreated: 1525574430
+guid: 330321a07fb00e54a8fe4d67c95d022c
+timeCreated: 1525580193
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: teleponn_0
+    21300000: PERGI LO_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,13 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: teleponn_0
+      name: PERGI LO_0
       rect:
         serializedVersion: 2
-        x: 232
-        y: 123
-        width: 297
-        height: 208
+        x: 0
+        y: 739
+        width: 1080
+        height: 580
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

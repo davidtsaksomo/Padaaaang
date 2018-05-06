@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GenerateMakanan : MonoBehaviour {
 
 	GameObject[] foodPos;
-	GameObject[] foods; 
+	public GameObject[] foods; 
 
 	public GameObject foodPrefab;
 	public Transform parent;

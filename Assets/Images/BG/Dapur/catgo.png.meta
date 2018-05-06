@@ -1,10 +1,12 @@
 fileFormatVersion: 2
-guid: 4fda92ff99e5f764f8cd68202b98cbca
-timeCreated: 1525574430
+guid: b6e69ddd85209a34eb0619360c93442d
+timeCreated: 1525580361
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: teleponn_0
+    21300000: catgo_0
+    21300002: catgo_1
+    21300004: catgo_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,15 +93,29 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: teleponn_0
+      name: catgo_1
       rect:
         serializedVersion: 2
-        x: 232
-        y: 123
-        width: 297
-        height: 208
+        x: 75
+        y: 56
+        width: 239
+        height: 218
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: catgo_2
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 135
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
