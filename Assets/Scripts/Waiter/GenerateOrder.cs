@@ -67,8 +67,8 @@ public class GenerateOrder : MonoBehaviour {
 		int countchef = CountChef ();
 
 		//balancing
-		orderTime = orderTime + ((countwaiter-countchef) * orderTime / 2) + ((countwaiter + countchef - 2) * orderTime / 4);
-		orderNumber = orderNumber - ((countwaiter - 1) * orderNumber / 3);
+		orderTime = orderTime + ((countwaiter-countchef) * orderTime / 4) + ((countwaiter + countchef - 2) * orderTime / 8);
+		orderNumber = orderNumber - ((countwaiter - 1) * orderNumber / 4);
 
 		//Photon inizialitation
 		photonView = GetComponent<PhotonView> ();
