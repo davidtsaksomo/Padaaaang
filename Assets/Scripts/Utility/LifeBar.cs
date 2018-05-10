@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LifeBar : MonoBehaviour {
 
 	float widthMax;
+	public float percentage;
 	void Start(){
 		widthMax = GetComponent<RectTransform> ().sizeDelta.x;
 	}
@@ -17,5 +18,6 @@ public class LifeBar : MonoBehaviour {
 		color.b = 0;
 		GetComponent<RectTransform> ().sizeDelta = new Vector2 (widthMax * value, GetComponent<RectTransform> ().sizeDelta.y);
 		GetComponent<Image> ().color = color;
+		percentage = GetComponent<RectTransform> ().sizeDelta.x / widthMax;
 	}
 }
