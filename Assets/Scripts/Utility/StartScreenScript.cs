@@ -188,7 +188,7 @@ public class StartScreenScript : MonoBehaviour {
 	public void JoinRoom(){
 
 
-		roomopt = new RoomOptions(){IsVisible = false, MaxPlayers = 4};
+		roomopt = new RoomOptions(){IsVisible = false, MaxPlayers = 6};
 		roomopt.PublishUserId = true;
 
 		//Get The room list

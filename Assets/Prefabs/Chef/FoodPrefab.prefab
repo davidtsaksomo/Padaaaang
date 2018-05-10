@@ -179,7 +179,7 @@ MonoBehaviour:
   coolDownTime: 0
   maxCoolDownTime: 0
   binCoolDown: 5
-  emptyCoolDown: 7
+  emptyCoolDown: 10
   cookCoolDown: 2
   isInCoolDown: 0
   emptySprite: {fileID: 21300000, guid: b3550a109cadcda428fe69ab53b91495, type: 3}

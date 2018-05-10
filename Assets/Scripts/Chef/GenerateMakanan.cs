@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GenerateMakanan : MonoBehaviour {
 
-	GameObject[] foodPos;
+	public GameObject[] foodPos;
 	public GameObject[] foods; 
 
 	public GameObject foodPrefab;
@@ -13,36 +13,84 @@ public class GenerateMakanan : MonoBehaviour {
 	public GameObject statusBarPrefab;
 	// Use this for initialization
 	void Start () {
-		foodPos = GameObject.FindGameObjectsWithTag ("FoodHolder");
+		int countchef = CountChef ();
+		if (countchef <= 0) {
+			countchef = 1;
+		}
 		Debug.Log (foodPos.Length);
-		foods = new GameObject[foodPos.Length]; 
+
+		int myfood;
+		if (countchef > 1) {
+			myfood = (foodPos.Length / 3) * 2;
+		} else {
+			myfood = foodPos.Length;
+		}
+		foods = new GameObject[myfood]; 
+
+		bool terbesar = true;
+		bool terkecil = true;
+		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+			if (player.GetTeam () == PunTeams.Team.red) {
+				if (player.ID > PhotonNetwork.player.ID) {
+					terbesar = false;
+				} else if (player.ID > PhotonNetwork.player.ID){
+					terkecil = false;
+				}
+			}
+		}
+		int start, end;
+		if (terbesar) {
+			start = 0;
+			end = start + myfood;
+		} else if (terkecil) {
+			end = foodPos.Length;
+			start = end - myfood;
+		} else {
+			start = (foodPos.Length - myfood) / 2;
+			end = start + myfood;
+		}
+		int neff = 0;
 		for(int i = 0; i < foodPos.Length; i++){
-			foods[i] = (GameObject)Instantiate (foodPrefab, foodPos[i].transform.localPosition,Quaternion.identity,parent);
-			foods [i].transform.localPosition = foodPos [i].transform.localPosition;
-			//penbghitungan foodID
-			int foodID = i%FoodDatabase.count;
-			if (foodID == 0) {
-				foodID = Random.Range(1,FoodDatabase.count);
+			if (i >= start && i < end) {
+
+				foods [neff] = (GameObject)Instantiate (foodPrefab, foodPos [i].transform.localPosition, Quaternion.identity, parent);
+				foods [neff].transform.localPosition = foodPos [i].transform.localPosition;
+				//pennghitungan foodID
+				int foodID = i % FoodDatabase.count;
+				if (foodID == 0) {
+					foodID = Random.Range (1, FoodDatabase.count);
+				}
+				foods [neff].GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
+				foods [neff].GetComponent<FoodID> ().id = foodID;
+				//assigning status bar
+				if (statusBarPrefab != null) {
+					Vector2 position = new Vector2 (
+						                   foodPos [i].transform.localPosition.x,
+						                   foodPos [i].transform.localPosition.y - 180);
+					GameObject statusBar = Instantiate (statusBarPrefab, position, Quaternion.identity, foodPos [i].transform);
+					FoodStatusBar statusBarScript = statusBar.GetComponent<FoodStatusBar> ();
+					statusBarScript.food = foods [neff];
+					statusBarScript.enabled = true;
+				}
+				neff++;
+			} else {
+				foodPos [i].SetActive (false);
 			}
-			foods[i].GetComponent<Image> ().sprite = FoodDatabase.instance.foodDatabase [foodID].image;
-			foods[i].GetComponent<FoodID> ().id = foodID;
-			//assigning status bar
-			if (statusBarPrefab != null) {
-				Vector2 position = new Vector2(
-					foodPos[i].transform.localPosition.x,
-					foodPos[i].transform.localPosition.y -180);
-				GameObject statusBar = Instantiate (statusBarPrefab, position, Quaternion.identity, foodPos [i].transform);
-				FoodStatusBar statusBarScript = statusBar.GetComponent<FoodStatusBar> ();
-				statusBarScript.food = foods [i];
-				statusBarScript.enabled = true;
-			}
+
 
 		}
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	int CountChef(){
+		int red = 0;
+		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+			if (player.GetTeam () == PunTeams.Team.red) {
+				red++;
+			}
+		}
+		return red;
 	}
+
+
 }

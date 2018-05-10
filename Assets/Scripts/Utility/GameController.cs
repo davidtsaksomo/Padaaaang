@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {			
 		donetarget = CountWaiter ();
-		maxfailure = maxfailure * donetarget;
+		maxfailure = maxfailure + (donetarget-1);
 
 	}
 
