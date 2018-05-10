@@ -138,3 +138,8 @@ MonoBehaviour:
   slidingSpoonReverse: {fileID: 8300000, guid: d9d2cf56d35943e478449565b882e246, type: 3}
   tappingChopsticks: {fileID: 8300000, guid: 262337a8615b2844395c3a17d4bb7dc0, type: 3}
   tappingSpoon: {fileID: 8300000, guid: 852edd1ebb5bc324ab39f8b5f407987d, type: 3}
+  kucingDatang: {fileID: 8300000, guid: db1c27ca3df70d745b0e43e3d1438c73, type: 3}
+  kucingPergi: {fileID: 8300000, guid: 34b717c3fd1e1bf4cb77557a0102530b, type: 3}
+  satpam: {fileID: 8300000, guid: 461fca456f48f7040bb66f3f6457250f, type: 3}
+  telefon: {fileID: 8300000, guid: cc21d9cef4c346846aaab27a3c7afd16, type: 3}
+  terimaMakanan: {fileID: 8300000, guid: de1c509c0e0568a46b1ff16fff75897c, type: 3}
