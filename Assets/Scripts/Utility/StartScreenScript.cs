@@ -13,6 +13,7 @@ public class StartScreenScript : MonoBehaviour {
 	public InputField roomNameField;
 	public float stopTimer;
 	private float curTimer;
+	MusicManager musicManager;
 	/**
 	 * Status:
 	 * home screen: 0
@@ -41,8 +42,7 @@ public class StartScreenScript : MonoBehaviour {
 		PlayerPrefs.DeleteKey ("roomname");
 		nameField.GetComponent<InputField>().text = PlayerPrefs.GetString ("playerName", "Player");
 		status = 0;
-		MusicManager musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
-		Debug.Log (musicManager.playingMusic.Equals("theme"));
+		musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
 		if (!musicManager.playingMusic.Equals ("theme")) {
 			musicManager.setVolume (1f);
 			musicManager.playTheme ();
@@ -219,6 +219,9 @@ public class StartScreenScript : MonoBehaviour {
 				PhotonNetwork.JoinOrCreateRoom (roomName, roomopt, TypedLobby.Default);
 				infoText.color = Color.green;
 				infoText.text = "Joining room...";
+				if (musicManager.playingMusic.Equals("theme")) {
+					musicManager.stopTheme ();
+				}
 			}
 		}
 

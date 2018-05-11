@@ -16,6 +16,7 @@ public class CharSelectScript : MonoBehaviour {
 	public float stopTimer;
 	public float stopTimer2;
 	private float curTimer = 0;
+	MusicManager musicManager;
 	/**\
 	 * 0: moving in right
 	 * 1: stay for a while
@@ -37,6 +38,11 @@ public class CharSelectScript : MonoBehaviour {
 		button_girl.GetComponent<RectTransform>().sizeDelta = new Vector2 (2 * Screen.width, 0.9f * Screen.height);
 		choose.transform.position = new Vector2 (-0.5f * Screen.width, 0.5f * Screen.height);
 		showBgAllBlur ();
+		musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
+		if (!musicManager.playingMusic.Equals ("preparation")) {
+			musicManager.setVolume (1f);
+			musicManager.playPreparation ();
+		}
 	}
 	
 	// Update is called once per frame
