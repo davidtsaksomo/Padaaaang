@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameOverManager : MonoBehaviour {
 
+	void Start(){
+		InGameMusic inGameMusic = GameObject.Find ("In-Game Music").GetComponent<InGameMusic> ();
+		inGameMusic.stopMusic ();
+	}
+
 	public void BackButton(){
 		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
 		if (PhotonNetwork.inRoom) {

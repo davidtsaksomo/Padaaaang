@@ -9,6 +9,11 @@ public class MenuAudio : MonoBehaviour {
 	public AudioClip slidingSpoonReverse;
 	public AudioClip tappingChopsticks;
 	public AudioClip tappingSpoon;
+	public AudioClip kucingDatang;
+	public AudioClip kucingPergi;
+	public AudioClip satpam;
+	public AudioClip telefon;
+	public AudioClip terimaMakanan;
 	private static bool created = false;
 
 	void Awake(){
@@ -46,6 +51,22 @@ public class MenuAudio : MonoBehaviour {
 
 	public void tapSpoon(){
 		playClip (tappingSpoon);
+	}
+
+	public void playKucingMasuk(){
+		playClip (kucingDatang);
+	}
+
+	public void playKucingPergi(){
+		playClip (kucingPergi);
+	}
+
+	public void playSatpam(){
+		playClip (satpam);
+	}
+
+	public void playTerimaMakanan(){
+		playClip (terimaMakanan);
 	}
 
 	void playClip(AudioClip clip){

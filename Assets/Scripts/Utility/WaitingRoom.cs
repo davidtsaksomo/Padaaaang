@@ -14,6 +14,7 @@ public class WaitingRoom : MonoBehaviour {
 	public float stopTimer;
 	public float stopTimer2;
 	private float curTimer;
+	MusicManager musicManager;
 	/**
 	 * Status:
 	 * 0: don't close
@@ -39,7 +40,7 @@ public class WaitingRoom : MonoBehaviour {
 		status = 0;
 		StartCoroutine ("regularupdate");
 		StartButtonActivation ();
-		MusicManager musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager>();
+		musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager>();
 		if (musicManager.playingMusic.Equals("theme")) {
 			musicManager.stopTheme ();
 		}
@@ -95,7 +96,10 @@ public class WaitingRoom : MonoBehaviour {
 
 	[PunRPC]
 	void GoToGame (){
-		
+
+		if (musicManager.playingMusic.Equals("preparation")) {
+			musicManager.stopPreparation ();
+		}
 		LevelController.level = 1;
 		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.blue) {
 			LevelController.role = LevelController.ROLE_WAITER;
