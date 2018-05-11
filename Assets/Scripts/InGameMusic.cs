@@ -13,7 +13,7 @@ public class InGameMusic : MonoBehaviour {
 	private float music4vol=0;
 	private LifeBar lifebar;
 
-	void init(){
+	public void init(){
 		lifebar = GameObject.Find ("Life").GetComponent<LifeBar> ();
 	}
 
