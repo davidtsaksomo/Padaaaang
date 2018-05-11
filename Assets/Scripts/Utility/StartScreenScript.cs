@@ -11,6 +11,12 @@ public class StartScreenScript : MonoBehaviour {
 	public GameObject inputRoomName;
 	public InputField nameField;
 	public InputField roomNameField;
+	public Image icon;
+	public Sprite[] connectingSprite;
+	public Sprite[] connectedSprite;
+	public Sprite[] notConnectedSprite;
+	public Sprite[] loadingSprite;
+	public int changeIcon;
 	public float stopTimer;
 	private float curTimer;
 	MusicManager musicManager;
@@ -21,9 +27,9 @@ public class StartScreenScript : MonoBehaviour {
 	 * input name stop: 12
 	 * input name transition up, go to home: 131
 	 * input name transition up, go to input room name: 132
-	 * input name transition down: 21
-	 * input name stop: 22
-	 * input name transition up: 23
+	 * input room name transition down: 21
+	 * input room name stop: 22
+	 * input room name transition up: 23
 	 **/
 	private int status;
 
@@ -33,6 +39,16 @@ public class StartScreenScript : MonoBehaviour {
 	//Properties for room
 	private string roomName;
 	private RoomOptions roomopt;
+	/**
+	 * Room status:
+	 * 0: connecting
+	 * 1: connected
+	 * 2: not connected
+	 * 3: loading
+	 **/
+	private int roomStatus = 0;
+	private int iconIdx = 0;
+	private int changeIconCounter = 0;
 
 	bool inLobby = false;
 
@@ -102,6 +118,7 @@ public class StartScreenScript : MonoBehaviour {
 				curTimer += Time.deltaTime;
 			}
 		} else if (status == 22) {
+			InitGame ();
 			if (Input.GetKeyDown (KeyCode.Escape)) {
 				curTimer = 0;
 				status = 23;
@@ -116,6 +133,24 @@ public class StartScreenScript : MonoBehaviour {
 				inputRoomName.transform.position += new Vector3 (0, Time.deltaTime / stopTimer * (1.1f - 0.5f) * Screen.height, 0);
 				curTimer += Time.deltaTime;
 			}
+		}
+		if (changeIconCounter == changeIcon) {
+			if (roomStatus == 0) {
+				iconIdx = (iconIdx + 1) % connectingSprite.Length;
+				icon.sprite = connectingSprite [iconIdx];
+			} else if (roomStatus == 1) {
+				iconIdx = (iconIdx + 1) % connectedSprite.Length;
+				icon.sprite = connectedSprite [iconIdx];
+			} else if (roomStatus == 2) {
+				iconIdx = (iconIdx + 1) % notConnectedSprite.Length;
+				icon.sprite = notConnectedSprite [iconIdx];
+			} else if (roomStatus == 3) {
+				iconIdx = (iconIdx + 1) % loadingSprite.Length;
+				icon.sprite = loadingSprite [iconIdx];
+			}
+			changeIconCounter = 0;
+		} else {
+			changeIconCounter++;
 		}
 	}
 
@@ -147,7 +182,6 @@ public class StartScreenScript : MonoBehaviour {
 	public void NameOk() {
 		status = 132;
 		curTimer = 0;
-		InitGame ();
 	}
 
 	public void RoomNameOk() {
@@ -172,6 +206,7 @@ public class StartScreenScript : MonoBehaviour {
 		//Connect
 		statusText.color = Color.yellow;
 		statusText.text = "Connecting...";
+		roomStatus = 3;
 		//Connect to the server
 		if(!PhotonNetwork.connected){
 			PhotonNetwork.ConnectUsingSettings ("v4.2");
@@ -182,6 +217,7 @@ public class StartScreenScript : MonoBehaviour {
 			statusText.color = Color.green;
 
 			statusText.text = "Connected";
+			roomStatus = 1;
 		}
 	}
 
@@ -201,6 +237,7 @@ public class StartScreenScript : MonoBehaviour {
 			PhotonNetwork.ConnectUsingSettings ("v4.2");
 			statusText.color = Color.yellow;
 			statusText.text = "Connecting...";
+			roomStatus = 3;
 		} else if (!inLobby) {
 			PhotonNetwork.JoinLobby();
 			infoText.color = Color.red;
@@ -214,6 +251,7 @@ public class StartScreenScript : MonoBehaviour {
 			} 
 			else {
 
+				roomStatus = 0;
 				roomName = roomNameField.text;
 
 				PhotonNetwork.JoinOrCreateRoom (roomName, roomopt, TypedLobby.Default);
@@ -268,10 +306,12 @@ public class StartScreenScript : MonoBehaviour {
 	void OnConnectionFail(DisconnectCause cause) { 	
 		statusText.color = Color.red;
 		statusText.text = "Failed to connect";
+		roomStatus = 2;
 	}
 
 	void OnFailedToConnectToPhoton(DisconnectCause cause){
 		statusText.color = Color.red;
 		statusText.text = "Failed to connect";
+		roomStatus = 2;
 	}
 }
