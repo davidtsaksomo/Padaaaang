@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour {
 	public AudioClip themeMusic;
-	public AudioClip inGameMusic;
+	public AudioClip preparationMusic;
 	public float fadeSpeed;
 	public string playingMusic = "";
 	public float volume;
@@ -30,6 +30,7 @@ public class MusicManager : MonoBehaviour {
 	}
 
 	public void playTheme(){
+		CancelInvoke("fadeOut");
 		sounds.clip = themeMusic;
 		sounds.time = 0f;
 		sounds.Play();
@@ -45,7 +46,27 @@ public class MusicManager : MonoBehaviour {
 
 	public void stopTheme(){
 		CancelInvoke ("loopTheme");
-		Debug.Log ("fade");
+		InvokeRepeating ("fadeOut",0f,0.1f);
+		playingMusic = "";
+	}
+
+	public void playPreparation(){
+		CancelInvoke("fadeOut");
+		sounds.clip = preparationMusic;
+		sounds.time = 0f;
+		sounds.Play();
+		InvokeRepeating ("loopPreparation",0f,0.02f);
+		playingMusic = "preparation";
+	}
+
+	public void loopPreparation(){
+		if(sounds.time >= 44.13f){
+			sounds.time = 0f;
+		}
+	}
+
+	public void stopPreparation(){
+		CancelInvoke ("loopPreparation");
 		InvokeRepeating ("fadeOut",0f,0.1f);
 		playingMusic = "";
 	}
