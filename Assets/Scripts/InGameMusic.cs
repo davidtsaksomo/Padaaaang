@@ -12,9 +12,21 @@ public class InGameMusic : MonoBehaviour {
 	private float music3vol=0;
 	private float music4vol=0;
 	private LifeBar lifebar;
+	private static bool created = false;
+
+	void Awake(){
+		if (!created) {
+			DontDestroyOnLoad (this.gameObject);
+			created = true;
+		}
+	}
 
 	public void init(){
 		lifebar = GameObject.Find ("Life").GetComponent<LifeBar> ();
+		music1vol = 1f;
+		music2vol = 0f;
+		music3vol = 0f;
+		music4vol = 0f;
 	}
 
 	void Update(){
@@ -40,7 +52,7 @@ public class InGameMusic : MonoBehaviour {
 		}
 	}
 
-	void startMusic(){
+	public void startMusic(){
 		music1.Play ();
 		music2.Play ();
 		music3.Play ();
@@ -55,14 +67,14 @@ public class InGameMusic : MonoBehaviour {
 			music3.time = 0;
 			music4.time = 0;
 		}
-		float volChangeRate = 0.2f;
+		float volChangeRate = 0.02f;
 		music1.volume += (music1vol - music1.volume) * volChangeRate;
 		music2.volume += (music2vol - music2.volume) * volChangeRate;
 		music3.volume += (music3vol - music3.volume) * volChangeRate;
 		music4.volume += (music4vol - music4.volume) * volChangeRate;
 	}
 
-	void stopMusic(){
+	public void stopMusic(){
 		music1.Stop ();
 		music2.Stop ();
 		music3.Stop ();
