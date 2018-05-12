@@ -15,6 +15,7 @@ public class WaitingRoom : MonoBehaviour {
 	public float stopTimer2;
 	private float curTimer;
 	MusicManager musicManager;
+	MenuAudio sfx;
 	/**
 	 * Status:
 	 * 0: don't close
@@ -44,6 +45,7 @@ public class WaitingRoom : MonoBehaviour {
 		if (musicManager.playingMusic.Equals("theme")) {
 			musicManager.stopTheme ();
 		}
+		sfx = GameObject.Find ("MenuAudio").GetComponent<MenuAudio> ();
 	}
 
 	void Update() {
@@ -78,6 +80,7 @@ public class WaitingRoom : MonoBehaviour {
 	}
 
 	public void BackButton(){
+		sfx.slideSpoonReverse ();
 		if (PhotonNetwork.inRoom) {
 			PhotonNetwork.LeaveRoom ();
 		} else {
@@ -100,6 +103,7 @@ public class WaitingRoom : MonoBehaviour {
 		if (musicManager.playingMusic.Equals("preparation")) {
 			musicManager.stopPreparation ();
 		}
+		sfx.slideSpoon ();
 		LevelController.level = 1;
 		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.blue) {
 			LevelController.role = LevelController.ROLE_WAITER;
@@ -188,6 +192,7 @@ public class WaitingRoom : MonoBehaviour {
 		Application.LoadLevel("Title");
 	}
 	void OnPhotonPlayerConnected (PhotonPlayer newPlayer){
+		sfx.shakeGlass ();
 		UpdatePlayerInfo ();
 		StartButtonActivation ();
 	}
@@ -196,6 +201,7 @@ public class WaitingRoom : MonoBehaviour {
 
 	}
 	void OnPhotonPlayerDisconnected (PhotonPlayer otherplayer){
+		sfx.shakeGlass ();
 		UpdatePlayerInfo ();
 		StartButtonActivation ();
 	}

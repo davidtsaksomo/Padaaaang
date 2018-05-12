@@ -7,6 +7,8 @@ public class GameOverManager : MonoBehaviour {
 	void Start(){
 		InGameMusic inGameMusic = GameObject.Find ("In-Game Music").GetComponent<InGameMusic> ();
 		inGameMusic.stopMusic ();
+		MenuAudio sfx = GameObject.Find ("MenuAudio").GetComponent<MenuAudio> ();
+		sfx.playGameOver ();
 	}
 
 	public void BackButton(){

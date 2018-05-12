@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10ac09628b99ed4d8df489bbc9433ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 6
+  delay: 4
   fadeDelay: 0.2
   logo: {fileID: 716754351}
   blank: {fileID: 623937017}
@@ -411,6 +411,21 @@ Prefab:
       value: 
       objectReference: {fileID: 243132007389446384, guid: 4012a7b4b1ac1a1448470ba54399c6c9,
         type: 2}
+    - target: {fileID: 114086805547938410, guid: 8e21ac5d31a267546a2ca64eba54c9be,
+        type: 2}
+      propertyPath: astaVarga
+      value: 
+      objectReference: {fileID: 8300000, guid: 0e43638db46e3b243b25794817abff46, type: 3}
+    - target: {fileID: 114086805547938410, guid: 8e21ac5d31a267546a2ca64eba54c9be,
+        type: 2}
+      propertyPath: padaang
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a8388327a26292489930298c041ff0b, type: 3}
+    - target: {fileID: 114086805547938410, guid: 8e21ac5d31a267546a2ca64eba54c9be,
+        type: 2}
+      propertyPath: gameOver
+      value: 
+      objectReference: {fileID: 8300000, guid: 69d846ea1a9dab74f889bc6168955570, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8e21ac5d31a267546a2ca64eba54c9be, type: 2}
   m_IsPrefabParent: 0

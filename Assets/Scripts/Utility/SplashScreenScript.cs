@@ -14,6 +14,7 @@ public class SplashScreenScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine (LoadTitleAfterDelay (delay));
+		StartCoroutine (playAstaVarga (delay/10));
 		curTime = 0;
 	}
 	
@@ -33,5 +34,12 @@ public class SplashScreenScript : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(delay);
 		Application.LoadLevel("Title");
+	}
+
+	IEnumerator playAstaVarga(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		MenuAudio audio = GameObject.Find ("MenuAudio").GetComponent<MenuAudio> ();
+		audio.playAstaVarga ();
 	}
 }

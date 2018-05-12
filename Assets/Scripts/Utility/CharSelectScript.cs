@@ -17,6 +17,7 @@ public class CharSelectScript : MonoBehaviour {
 	public float stopTimer2;
 	private float curTimer = 0;
 	MusicManager musicManager;
+	MenuAudio sfx;
 	/**\
 	 * 0: moving in right
 	 * 1: stay for a while
@@ -43,6 +44,7 @@ public class CharSelectScript : MonoBehaviour {
 			musicManager.setVolume (1f);
 			musicManager.playPreparation ();
 		}
+		sfx = GameObject.Find ("MenuAudio").GetComponent<MenuAudio> ();
 	}
 	
 	// Update is called once per frame
@@ -107,6 +109,7 @@ public class CharSelectScript : MonoBehaviour {
 	}
 
 	public void onYesSelected() {
+		sfx.slideSpoon ();
 		if (status == 5) {
 			PlayerPrefs.SetString ("playergender", "boy");
 			Application.LoadLevelAsync ("WaitingRoom");
@@ -124,6 +127,7 @@ public class CharSelectScript : MonoBehaviour {
 	}
 
 	public void onBoySelected() {
+		sfx.slideSpoon ();
 		if (status == 4) {
 			box.SetActive (true);
 			status = 5;
@@ -135,6 +139,7 @@ public class CharSelectScript : MonoBehaviour {
 	}
 
 	public void onGirlSelected() {
+		sfx.slideSpoon ();
 		if (status == 6) {
 			box.SetActive (true);
 			status = 7;

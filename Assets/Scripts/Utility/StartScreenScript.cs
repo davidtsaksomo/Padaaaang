@@ -20,6 +20,7 @@ public class StartScreenScript : MonoBehaviour {
 	public float stopTimer;
 	private float curTimer;
 	MusicManager musicManager;
+	MenuAudio sfx;
 	/**
 	 * Status:
 	 * home screen: 0
@@ -63,6 +64,8 @@ public class StartScreenScript : MonoBehaviour {
 			musicManager.setVolume (1f);
 			musicManager.playTheme ();
 		}
+		sfx = GameObject.Find ("MenuAudio").GetComponent<MenuAudio> ();
+		sfx.playPadaang ();
 	}
 	
 	// Update is called once per frame
@@ -78,6 +81,7 @@ public class StartScreenScript : MonoBehaviour {
 				curTimer = 0f;
 				inputName.transform.position = new Vector3 (inputName.transform.position.x, 1.1f * Screen.height, inputName.transform.position.z);
 			} else if (Input.GetKeyDown (KeyCode.Escape)) {
+				sfx.slideSpoonReverse ();
 				Application.Quit ();
 			}
 		} else if (status == 11) {
@@ -180,11 +184,13 @@ public class StartScreenScript : MonoBehaviour {
 	}
 
 	public void NameOk() {
+		sfx.slideSpoon ();
 		status = 132;
 		curTimer = 0;
 	}
 
 	public void RoomNameOk() {
+		sfx.slideSpoon ();
 		JoinRoom ();
 	}
 
@@ -313,5 +319,17 @@ public class StartScreenScript : MonoBehaviour {
 		statusText.color = Color.red;
 		statusText.text = "Failed to connect";
 		roomStatus = 2;
+	}
+
+	public void inputChanged(){
+		if (sfx != null) {
+			sfx.tapChopsticks ();
+		}
+	}
+
+	public void endEdit(){
+		if (sfx != null) {
+			sfx.slideSpoon ();
+		}
 	}
 }

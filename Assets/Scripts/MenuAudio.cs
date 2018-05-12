@@ -14,6 +14,9 @@ public class MenuAudio : MonoBehaviour {
 	public AudioClip satpam;
 	public AudioClip telefon;
 	public AudioClip terimaMakanan;
+	public AudioClip gameOver;
+	public AudioClip astaVarga;
+	public AudioClip padaang;
 	private static bool created = false;
 
 	void Awake(){
@@ -67,6 +70,18 @@ public class MenuAudio : MonoBehaviour {
 
 	public void playTerimaMakanan(){
 		playClip (terimaMakanan);
+	}
+
+	public void playGameOver(){
+		playClip (gameOver);
+	}
+
+	public void playAstaVarga(){
+		playClip (astaVarga);
+	}
+
+	public void playPadaang(){
+		playClip (padaang);
 	}
 
 	void playClip(AudioClip clip){
