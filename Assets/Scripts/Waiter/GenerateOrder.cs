@@ -23,6 +23,9 @@ public class GenerateOrder : MonoBehaviour {
 	public GameObject foodPrefab;
 	public Transform canvas;
 	public Text queueCount;
+	public Image playerImage;
+	public Sprite waiterImage;
+	public Sprite waitressImage;
 	public static List<GameObject> OrderList = new List<GameObject>();
 
 	public float startTime = 3f;
@@ -56,6 +59,12 @@ public class GenerateOrder : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		string playergender = PlayerPrefs.GetString ("playergender");
+		if (playergender.Equals ("girl")) {
+			playerImage.sprite = waitressImage;
+		} else {
+			playerImage.sprite = waiterImage;
+		}
 		//difficulty increment
 		orderTime = orderTime - ((LevelController.level - 1) * timeDiffPerLevel);
 		if (orderTime < 2.5f) {

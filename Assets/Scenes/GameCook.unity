@@ -318,6 +318,9 @@ MonoBehaviour:
   parent: {fileID: 122661055}
   statusBarPrefab: {fileID: 1670710665123556, guid: 167ab83bed7912f46b6804f2c4a86f1b,
     type: 2}
+  playerImage: {fileID: 1908831043}
+  boyImage: {fileID: 21300000, guid: 011819f2922efe04aa8db526a1d844d2, type: 3}
+  girlImage: {fileID: 21300000, guid: 83d289497b865ba449f3d9d4e1703d03, type: 3}
 --- !u!4 &65383461
 Transform:
   m_ObjectHideFlags: 0

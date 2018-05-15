@@ -11,8 +11,17 @@ public class GenerateMakanan : MonoBehaviour {
 	public GameObject foodPrefab;
 	public Transform parent;
 	public GameObject statusBarPrefab;
+	public Image playerImage;
+	public Sprite boyImage;
+	public Sprite girlImage;
 	// Use this for initialization
 	void Start () {
+		string playergender = PlayerPrefs.GetString ("playergender");
+		if (playergender.Equals ("girl")) {
+			playerImage.sprite = girlImage;
+		} else {
+			playerImage.sprite = boyImage;
+		}
 		int countchef = CountChef ();
 		if (countchef <= 0) {
 			countchef = 1;
