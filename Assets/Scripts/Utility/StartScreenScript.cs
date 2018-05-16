@@ -49,6 +49,7 @@ public class StartScreenScript : MonoBehaviour {
 	private int roomStatus = 0;
 	private int iconIdx = 0;
 	private int changeIconCounter = 0;
+	private InGameMusic ingame;
 
 	bool inLobby = false;
 
@@ -59,6 +60,10 @@ public class StartScreenScript : MonoBehaviour {
 		nameField.GetComponent<InputField>().text = PlayerPrefs.GetString ("playerName", "Player");
 		status = 0;
 		musicManager = GameObject.Find ("MusicManager").GetComponent<MusicManager> ();
+		ingame = GameObject.Find ("In-Game Music").GetComponent<InGameMusic> ();
+		if (ingame != null) {
+			ingame.stopMusic ();
+		}
 		if (!musicManager.playingMusic.Equals ("theme")) {
 			musicManager.setVolume (1f);
 			musicManager.playTheme ();
